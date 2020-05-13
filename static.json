@@ -1,0 +1,6 @@
+{
+  "root": "packages/web/build/",
+  "routes": {
+    "/**": "index.html"
+  }
+}

@@ -4,14 +4,11 @@
   "version": "0.1.0",
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "web": "expo start --web",
+    "ios": "react-native run-ios --simulator='iPhone 11 Pro'",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
-    "expo": "~37.0.3",
-    "expo-updates": "~0.2.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.5",

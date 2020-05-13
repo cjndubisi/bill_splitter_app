@@ -1,0 +1,11 @@
+*.jsbundle
+*.tsbuildinfo
+.DS_Store
+.history
+.jest
+.vscode
+Pods
+node_modules/
+npm-debug.log
+yarn-error.log
+.now

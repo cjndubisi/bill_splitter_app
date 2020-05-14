@@ -16,7 +16,7 @@ install:
   - bundle install
 
 stages: 
-  - shared
+  - test
   - mobile
 
 matrix:
@@ -74,7 +74,7 @@ matrix:
         - cd $TRAVIS_BUILD_DIR/packages/mobile
         - bundle exec fastlane android alpha
 
-      language: objective-c
+    - language: objective-c
       os: osx
       osx_image: xcode11.4
       podfile: $TRAVIS_BUILD_DIR/packages/mobile/ios/Podfile

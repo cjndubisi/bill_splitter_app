@@ -33,7 +33,7 @@ platform :ios do
 
   desc 'Fetch certificates and provisioning profiles'
   lane :certificates do
-    match(app_identifier: 'challenge.BillSplit', type: 'development', readonly: false) unless ci?
+    match(app_identifier: 'challenge.BillSplit', type: 'development', readonly: false) unless is_ci?
     match(app_identifier: 'challenge.BillSplit', type: 'adhoc', readonly: is_ci?, clone_branch_directly: true)
     match(app_identifier: 'challenge.BillSplit', type: 'appstore', readonly: is_ci?, clone_branch_directly: true)
   end
@@ -114,7 +114,6 @@ platform :android do
 
   desc 'Build the Android application.'
   private_lane :build do
-    sh 'ln -s  `which node` /usr/local/bin/node'
     gradle(task: 'incrementVersionCode', project_dir: 'android/')
     gradle(task: 'clean', project_dir: 'android/')
     gradle(task: 'assemble', build_type: 'Release', project_dir: 'android/')

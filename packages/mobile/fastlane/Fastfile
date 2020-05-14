@@ -69,13 +69,13 @@ platform :ios do
 
   desc 'Ship to AppCenter'
   lane :alpha do
-    # return unless ['develop', 'master'].include? git_branch
+    return unless ['develop', 'master'].include? git_branch
 
-    build
+    # build
     appcenter_upload(
       api_token: ENV['APPCENTER_API_TOKEN'],
       owner_name: 'cjndubisi',
-      app_name: 'BillSplit',
+      app_name: 'BillSplit-iOS',
       notify_testers: true,
       app_os: 'iOS',
       dsym: ENV['FASTLANE_OUTPUT_DIRECTORY'],

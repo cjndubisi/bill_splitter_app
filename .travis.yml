@@ -1,13 +1,6 @@
 language: node
 node_js:
   - 12
-cache:
-  yarn: true
-  directories:
-    - $HOME/.yarn-cache
-    - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/
-    - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/wrapper/
-    - $TRAVIS_BUILD_DIR/node_modules
 branches:
   only:
     - develop
@@ -17,10 +10,10 @@ notifications:
     on_success: never
     on_failure: always
 install:
-  - cd $TRAVIS_BUILD_DIR/packages/mobile
-  - bundle install
   - cd $TRAVIS_BUILD_DIR
   - yarn install
+  - cd $TRAVIS_BUILD_DIR/packages/mobile
+  - bundle install
 
 jobs:
   include:
@@ -30,7 +23,13 @@ jobs:
       before_cache:
         - rm -f $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/modules-2/modules-2.lock
         - rm -fr $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/*/plugin-resolution/
-
+      cache:
+        yarn: true
+        directories:
+          - $HOME/.yarn-cache
+          - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/
+          - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/wrapper/
+          - node_modules
       before_install:
         - sudo apt-get update
         - nvm install 12
@@ -62,6 +61,11 @@ jobs:
         - sudo apt-get update
         - nvm install 12
         - travis_retry npm install -g yarn
+      cache:
+        yarn: true
+        directories:
+          - $HOME/.yarn-cache
+          - node_modules
       script:
         - cd $TRAVIS_BUILD_DIR/packages/mobile
         - bundle exec fastlane ios alpha

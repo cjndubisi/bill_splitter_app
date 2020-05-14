@@ -15,24 +15,27 @@ install:
   - cd $TRAVIS_BUILD_DIR/packages/mobile
   - bundle install
 
-jobs:
+matrix:
   include:
     - language: android
       jdk: oraclejdk8
-      sudo: required
+      node_js: true
       before_cache:
         - rm -f $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/modules-2/modules-2.lock
         - rm -fr $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/*/plugin-resolution/
       cache:
         yarn: true
+        bundler: true
         directories:
           - $HOME/.yarn-cache
           - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/
           - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/wrapper/
+          - $HOME/rvm
           - node_modules
       before_install:
         - sudo apt-get update
         - nvm install 12
+        - node --version
         - travis_retry npm install -g yarn
         - rvm install 2.6.5
         - gem install bundler
@@ -57,12 +60,14 @@ jobs:
     - language: objective-c
       os: osx
       osx_image: xcode11.4
+      podfile: $TRAVIS_BUILD_DIR/packages/mobile/ios/Podfile
       before_install:
-        - sudo apt-get update
         - nvm install 12
         - travis_retry npm install -g yarn
       cache:
         yarn: true
+        bundler: true
+        cocoapods: true
         directories:
           - $HOME/.yarn-cache
           - node_modules

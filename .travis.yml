@@ -15,20 +15,25 @@ install:
   - cd $TRAVIS_BUILD_DIR/packages/mobile
   - bundle install
 
+stages: 
+  - shared
+  - mobile
+
 matrix:
   include:
-    - stage: web
+    - stage: test
       cache:
         yarn: true
         directories:
           - $HOME/.yarn-cache
           - node_modules
+      install: yarn install
       script:
         - cd $TRAVIS_BUILD_DIR/packages/common
         - yarn test
 
     - stage: mobile
-    - language: android
+      language: android
       jdk: oraclejdk8
       node_js: true
       before_cache:
@@ -50,7 +55,7 @@ matrix:
         - travis_retry npm install -g yarn
         - rvm install 2.6.5
         - gem install bundler
-        - 
+        -
       android:
         components:
           - platform-tools
@@ -69,7 +74,7 @@ matrix:
         - cd $TRAVIS_BUILD_DIR/packages/mobile
         - bundle exec fastlane android alpha
 
-    - language: objective-c
+      language: objective-c
       os: osx
       osx_image: xcode11.4
       podfile: $TRAVIS_BUILD_DIR/packages/mobile/ios/Podfile

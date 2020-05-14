@@ -1,6 +1,5 @@
 platform :ios, '10.0'
 
-require_relative '../../../node_modules/react-native-unimodules/cocoapods'
 require_relative '../../../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'BillSplit' do
@@ -35,11 +34,6 @@ target 'BillSplit' do
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
-
-  # Other native modules
-
-  # Automatically detect installed unimodules
-  use_unimodules!(modules_paths:['../../../node_modules'])
 
   # react-native-cli autolinking
   use_native_modules!

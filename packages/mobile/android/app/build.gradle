@@ -84,9 +84,8 @@ project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
 ]
 
-apply from: '../../../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../../../node_modules/react-native/react.gradle"
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+// apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -149,6 +148,19 @@ android {
         }
     }
     signingConfigs {
+        release {
+            file("../signing.properties").with { propFile ->
+                if (propFile.canRead()) {
+                    def properties = new Properties()
+                    properties.load(new FileInputStream(propFile))
+
+                    storeFile file(properties['APP_RELEASE_STORE_FILE'])
+                    storePassword properties['APP_RELEASE_STORE_PASSWORD']
+                    keyAlias properties['APP_RELEASE_KEY_ALIAS']
+                    keyPassword properties['APP_RELEASE_KEY_PASSWORD']
+                }
+            }
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -186,9 +198,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    addUnimodulesDependencies([modulesPaths:['../../../../node_modules']])
 
     if (enableHermes) {
         def hermesPath = "../../../../node_modules/hermes-engine/android/";

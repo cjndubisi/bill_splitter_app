@@ -18,11 +18,11 @@ notifications:
     on_failure: always
 
 before_install:
+  - sudo apt-get update
   - nvm install 12
-  - node --version
   - travis_retry npm install -g yarn
   - rvm install 2.6.5
-  - gem install bundler 
+  - gem install bundler
 install:
   - cd $TRAVIS_BUILD_DIR/packages/mobile
   - bundle install
@@ -33,7 +33,7 @@ jobs:
   include:
     - language: android
       jdk: oraclejdk8
-      dist: precise
+      sudo: required
       before_cache:
         - rm -f $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/modules-2/modules-2.lock
         - rm -fr $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/*/plugin-resolution/

@@ -18,11 +18,12 @@ notifications:
     on_failure: always
 
 before_install:
-  - gem install bundler -v 1.17.3
+  - rvm install 2.6.5
+  - gem install bundler 
   - cd $TRAVIS_BUILD_DIR/packages/mobile
   - bundle install
 install:
-  - cd TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR
   - yarn install
 
 jobs:
@@ -48,7 +49,7 @@ jobs:
         - android-sdk-license-.+
         - google-gdk-license-.+
       script:
-        - cd $HOME/packages/mobile
+        - cd $TRAVIS_BUILD_DIR/packages/mobile
         - bundle exec fastlane android alpha
 
     - language: objective-c
@@ -59,7 +60,6 @@ jobs:
         - nvm install 12
         - node --version
         - travis_retry npm install -g yarn
-        - yarn install
       script:
         - cd $TRAVIS_BUILD_DIR/packages/mobile
         - bundle exec fastlane ios alpha

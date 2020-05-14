@@ -17,6 +17,17 @@ install:
 
 matrix:
   include:
+    - stage: web
+      cache:
+        yarn: true
+        directories:
+          - $HOME/.yarn-cache
+          - node_modules
+      script:
+        - cd $TRAVIS_BUILD_DIR/packages/common
+        - yarn test
+
+    - stage: mobile
     - language: android
       jdk: oraclejdk8
       node_js: true

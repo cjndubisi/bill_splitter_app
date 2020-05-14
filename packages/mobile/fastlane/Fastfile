@@ -33,9 +33,9 @@ platform :ios do
 
   desc 'Fetch certificates and provisioning profiles'
   lane :certificates do
-    match(app_identifier: 'challenge.BillSplit', type: 'development', readonly: false)
-    match(app_identifier: 'challenge.BillSplit', type: 'adhoc', readonly: false)
-    match(app_identifier: 'challenge.BillSplit', type: 'appstore', readonly: false)
+    match(app_identifier: 'challenge.BillSplit', type: 'development', readonly: false) unless ci?
+    match(app_identifier: 'challenge.BillSplit', type: 'adhoc', readonly: ci?, clone_branch_directly: true)
+    match(app_identifier: 'challenge.BillSplit', type: 'appstore', readonly: ci?, clone_branch_directly: true)
   end
 
   desc 'Build the iOS application.'

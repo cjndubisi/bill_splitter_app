@@ -11,6 +11,7 @@ cache:
 branches:
   only:
     - develop
+    - feat/ci
 notifications:
   email:
     on_success: never

@@ -15,7 +15,7 @@ install:
   - cd $TRAVIS_BUILD_DIR/packages/mobile
   - bundle install
 
-stages: 
+stages:
   - test
   - mobile
 
@@ -77,18 +77,17 @@ matrix:
     - language: objective-c
       os: osx
       osx_image: xcode11.4
-      podfile: $TRAVIS_BUILD_DIR/packages/mobile/ios/Podfile
       before_install:
         - nvm install 12
         - travis_retry npm install -g yarn
         - echo -e "machine github.com\n  login $CI_USER_TOKEN" >> ~/.netrc
       cache:
         yarn: true
-        bundler: true
-        cocoapods: true
         directories:
           - $HOME/.yarn-cache
           - node_modules
+          - $TRAVIS_BUILD_DIR/packages/mobile/ios/Pods
+          - $TRAVIS_BUILD_DIR/packages/mobile/.bundle
       script:
         - cd $TRAVIS_BUILD_DIR/packages/mobile
         - bundle exec fastlane ios alpha

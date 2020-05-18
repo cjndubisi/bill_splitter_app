@@ -1,1 +1,2 @@
-export {default as App} from '@bill_splitter/common';
+import App from '@bill_splitter/common';
+export default App;

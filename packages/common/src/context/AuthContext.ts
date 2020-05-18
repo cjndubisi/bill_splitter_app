@@ -72,7 +72,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
 
     const request = info;
     try {
-      const { user, auth_token } = await register(request);
+      const { user, token: auth_token } = await register(request);
 
       await AsyncStorage.setItem(AUTH_USER_TOKEN_KEY, auth_token);
 

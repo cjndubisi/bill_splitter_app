@@ -85,11 +85,9 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
         },
       });
     } catch (error) {
-      console.log(error);
-
       dispatch({
         type: AuthTypes.AUTH_FAILURE,
-        payload: error.message | JSON.parse(error.message),
+        payload: error.message || error,
       });
     }
   },

@@ -6,7 +6,9 @@ const { API_URL } = Config;
 export const register = async (
   user: Partial<User>
 ): Promise<RegisterResponse> => {
-  const response = await fetch(`${API_URL}${'/users'}`, {
+  console.log(user);
+
+  const response = await fetch(`${API_URL}${'/users/signup'}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(user),

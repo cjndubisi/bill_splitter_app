@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import Button from './components/Button';
 import { Input } from './styled';
 import { AuthContext } from './context/AuthContext';
-import Config from './utils/config';
+import ActivityLoader from './components/ActivityLoader';
+import { Redirect } from './router';
+
+const isWeb = Platform.OS === 'web';
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -13,19 +16,18 @@ const SignUp = () => {
     state: { isLoading, isSignedIn },
     signUpWithEmail,
   } = useContext(AuthContext);
+
   if (isSignedIn) {
+    return <Redirect to="/home" />;
   }
   const signUp = async () => {
     await signUpWithEmail({ name, email, password });
   };
   return (
     <View>
-      <Input
-        onChangeText={setName}
-        placeholder="Name"
-        secureTextEntry={true}
-        value={name}
-      />
+      <ActivityLoader animating={isLoading && !isWeb} />
+
+      <Input onChangeText={setName} placeholder="Name" value={name} />
       <Input onChangeText={setEmail} placeholder="Email" value={email} />
       <Input
         onChangeText={setPassword}

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator='iPhone 11 Pro'",
+    "ios": "react-native run-ios --simulator='iPhone X'",
     "start": "react-native start",
     "test": "jest"
   },

@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Link } from './router';
+import { Container } from './styled';
 
 const Splash = ({ match }) => {
   return (
-    <View>
+    <Container>
       <View>
         <Text>BillSplit</Text>
       </View>
@@ -14,7 +15,7 @@ const Splash = ({ match }) => {
       <Link to={`/login`}>
         <Text>Login</Text>
       </Link>
-    </View>
+    </Container>
   );
 };
 

@@ -53,3 +53,11 @@ export const ErrorView = ({ title }) => (
     <Text style={{ textAlign: 'center', color: 'black' }}>{title}</Text>
   </StyledErrorView>
 );
+
+export const Container = styled.SafeAreaView`
+  min-height: 100%;
+  max-width: 467px;
+  padding: 10px;
+  background-color: #e0ffffbb;
+  height: 100%;
+`;

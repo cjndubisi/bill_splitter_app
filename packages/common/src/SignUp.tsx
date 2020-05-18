@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Platform, Text } from 'react-native';
 import Button from './components/Button';
-import { Input, ErrorView } from './styled';
+import { Input, ErrorView, Container } from './styled';
 import { AuthContext } from './context/AuthContext';
 import ActivityLoader from './components/ActivityLoader';
 import { Redirect } from './router';
@@ -27,7 +27,7 @@ const SignUp = () => {
     await signUpWithEmail({ name, email, password });
   };
   return (
-    <View>
+    <Container>
       <ActivityLoader animating={isLoading && !isWeb} />
       {viewError && <ErrorView title={viewError} />}
 
@@ -51,7 +51,7 @@ const SignUp = () => {
         value={password}
       />
       <Button onPress={signUp} title={'Sign up'} />
-    </View>
+    </Container>
   );
 };
 export default SignUp;

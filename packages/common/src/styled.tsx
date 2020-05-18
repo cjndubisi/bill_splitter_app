@@ -37,3 +37,19 @@ export const Text = styled(FilterText)`
   margin-bottom: 4px;
   ${(props) => (props.bold ? 'font-weight:bold;' : '')};
 `;
+
+const StyledErrorView = styled.View`
+  justify-content: center;
+  height: 40px;
+  border-radius: 5;
+  background-color: #fa8072bb;
+  align-self: center;
+  margin-top: 20;
+  width: 80%;
+`;
+
+export const ErrorView = ({ title }) => (
+  <StyledErrorView>
+    <Text style={{ textAlign: 'center', color: 'black' }}>{title}</Text>
+  </StyledErrorView>
+);

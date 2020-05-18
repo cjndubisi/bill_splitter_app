@@ -1,22 +1,25 @@
-import React, { useState, useContext } from 'react';
-import { View, Platform } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Platform, Text } from 'react-native';
 import Button from './components/Button';
-import { Input } from './styled';
+import { Input, ErrorView } from './styled';
 import { AuthContext } from './context/AuthContext';
 import ActivityLoader from './components/ActivityLoader';
 import { Redirect } from './router';
 
 const isWeb = Platform.OS === 'web';
 const SignUp = () => {
+  const {
+    state: { isLoading, isSignedIn, error },
+    signUpWithEmail,
+  } = useContext(AuthContext);
+  const [viewError, setError] = useState(error);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {
-    state: { isLoading, isSignedIn },
-    signUpWithEmail,
-  } = useContext(AuthContext);
-
+  useEffect(() => {
+    setError(error);
+  }, [error]);
   if (isSignedIn) {
     return <Redirect to="/home" />;
   }
@@ -26,10 +29,22 @@ const SignUp = () => {
   return (
     <View>
       <ActivityLoader animating={isLoading && !isWeb} />
+      {viewError && <ErrorView title={viewError} />}
 
-      <Input onChangeText={setName} placeholder="Name" value={name} />
-      <Input onChangeText={setEmail} placeholder="Email" value={email} />
       <Input
+        onFocus={() => setError(null)}
+        onChangeText={setName}
+        placeholder="Name"
+        value={name}
+      />
+      <Input
+        onFocus={() => setError(null)}
+        onChangeText={setEmail}
+        placeholder="Email"
+        value={email}
+      />
+      <Input
+        onFocus={() => setError(null)}
         onChangeText={setPassword}
         placeholder="Password"
         secureTextEntry={true}

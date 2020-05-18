@@ -12,8 +12,7 @@ const handleRequestPost = async (url: string, payload: any) => {
 
   const json = await response.json();
   if (!response.ok) {
-    const errors = json.errors;
-    throw new Error(JSON.stringify(errors));
+    throw new Error(json.message);
   }
   return json;
 };

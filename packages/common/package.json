@@ -10,5 +10,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/styled-components": "^5.1.0",
+    "react-router": "^5.2.0",
+    "styled-components": "^5.1.0"
+  },
+  "devDependencies": {
+    "typescript-plugin-styled-components": "^1.4.4"
+  }
 }

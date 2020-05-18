@@ -7,7 +7,9 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 // start: avoid clearing console
 require('react-dev-utils/clearConsole');
-require.cache[require.resolve('react-dev-utils/clearConsole')].exports = () => {};
+require.cache[
+  require.resolve('react-dev-utils/clearConsole')
+].exports = () => {};
 // end avoid
 
 const appIncludes = [
@@ -21,16 +23,8 @@ const appIncludes = [
   resolveApp('../../node_modules/@react-native-community/async-storage'),
 ];
 
-// const createENVFile = (isDev) => {
-//   const rootEnv = isDev ? '.env.development' : '.env';
-//   const fileEnv = fs.readFileSync(resolveApp(`../../${rootEnv}`), 'utf8');
-//   fs.writeFileSync('.env', fileEnv);
-// };
-
 module.exports = function override(config, env) {
   const __DEV__ = env !== 'production';
-
-  // createENVFile(__DEV__);
 
   config.module.rules[0].include = appIncludes;
   config.module.rules[1] = null;

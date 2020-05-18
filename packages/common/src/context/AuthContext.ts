@@ -1,3 +1,4 @@
+import React from 'react';
 import { Dispatch, Reducer, ReducerAction } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { register } from '../api';

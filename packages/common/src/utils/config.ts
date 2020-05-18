@@ -6,12 +6,12 @@ interface IConfig {
 const nativeConfig = Platform.select({
   ios: () => require('react-native-config'),
   android: () => require('react-native-config'),
-})();
+});
 
 // get all envs from process.env
 // using ...process.env doesn't work,
 // must manually access API_URL on .env like process.env.API_URL
-const env = { ...process.env, ...nativeConfig.default };
+const env = { ...process.env, ...nativeConfig };
 const envKeys = Object.keys(env)
   .filter((item) => {
     return item.indexOf('REACT_APP_') !== -1;

@@ -1,20 +1,20 @@
 fastlane_version '2.141.0'
 
-before_all do
+before_all do |lane, options|
   ensure_git_status_clean(show_uncommitted_changes: true) if is_ci?
-  if is_ci?
+  if is_ci? && ENV["FASTLANE_PLATFORM_NAME"] == 'ios'
     create_ci_keychain
   end
 end
 
 after_all do |lane, options|
-  if is_ci?
+  if is_ci? && ENV["FASTLANE_PLATFORM_NAME"] == 'ios'
     delete_ci_keychain
   end
 end
 
 error do |lane, exception|
-  if is_ci?
+  if is_ci? && ENV["FASTLANE_PLATFORM_NAME"] == 'ios'
     delete_ci_keychain
   end
 end
@@ -33,9 +33,20 @@ platform :ios do
 
   desc 'Fetch certificates and provisioning profiles'
   lane :certificates do
-    match(app_identifier: 'challenge.BillSplit', type: 'development', readonly: false)
-    match(app_identifier: 'challenge.BillSplit', type: 'adhoc', readonly: false)
-    match(app_identifier: 'challenge.BillSplit', type: 'appstore', readonly: false)
+    match(app_identifier: 'challenge.BillSplit',
+      verbose: is_ci?, 
+      type: 'development',
+      readonly: false) unless is_ci?
+    match(app_identifier: 'challenge.BillSplit',
+      verbose: is_ci?, 
+      type: 'adhoc',
+      readonly: is_ci?,
+      clone_branch_directly: true)
+    match(app_identifier: 'challenge.BillSplit',
+      verbose: is_ci?, 
+      type: 'appstore',
+      readonly: is_ci?,
+      clone_branch_directly: true)
   end
 
   desc 'Build the iOS application.'
@@ -69,9 +80,7 @@ platform :ios do
 
   desc 'Ship to AppCenter'
   lane :alpha do
-    return unless ['develop', 'master'].include? git_branch
-
-    # build
+    build
     appcenter_upload(
       api_token: ENV['APPCENTER_API_TOKEN'],
       owner_name: 'cjndubisi',

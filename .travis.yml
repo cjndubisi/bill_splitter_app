@@ -1,0 +1,93 @@
+language: node
+node_js:
+  - 12
+branches:
+  only:
+    - develop
+    - feat/ci
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+install:
+  - cd $TRAVIS_BUILD_DIR
+  - yarn install
+  - cd $TRAVIS_BUILD_DIR/packages/mobile
+  - bundle install
+
+stages:
+  - test
+  - mobile
+
+matrix:
+  include:
+    - stage: test
+      cache:
+        yarn: true
+        directories:
+          - $HOME/.yarn-cache
+          - node_modules
+      install: yarn install
+      script:
+        - cd $TRAVIS_BUILD_DIR/packages/common
+        - yarn test
+
+    - stage: mobile
+      language: android
+      jdk: oraclejdk8
+      node_js: true
+      before_cache:
+        - rm -f $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/*/plugin-resolution/
+      cache:
+        yarn: true
+        bundler: true
+        directories:
+          - $HOME/.yarn-cache
+          - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/caches/
+          - $TRAVIS_BUILD_DIR/packages/mobile/android/.gradle/wrapper/
+          - $HOME/rvm
+          - node_modules
+      before_install:
+        - sudo apt-get update
+        - nvm install 12
+        - node --version
+        - travis_retry npm install -g yarn
+        - rvm install 2.6.5
+        - gem install bundler
+        -
+      android:
+        components:
+          - platform-tools
+          - tools
+          - build-tools-28.0.3
+          - android-28
+          - android-29
+          - extra-android-m2repository
+          - extra-google-google_play_services
+          - extra-google-m2repository
+        licenses:
+          - android-sdk-preview-license-.+
+          - android-sdk-license-.+
+          - google-gdk-license-.+
+      script:
+        - cd $TRAVIS_BUILD_DIR/packages/mobile
+        - bundle exec fastlane android alpha
+
+    - language: objective-c
+      os: osx
+      osx_image: xcode11.4
+      before_install:
+        - nvm install 12
+        - travis_retry npm install -g yarn
+        - echo -e "machine github.com\n  login $CI_USER_TOKEN" >> ~/.netrc
+      cache:
+        yarn: true
+        directories:
+          - $HOME/.yarn-cache
+          - node_modules
+          - $TRAVIS_BUILD_DIR/packages/mobile/ios/Pods
+          - $TRAVIS_BUILD_DIR/packages/mobile/.bundle
+      script:
+        - cd $TRAVIS_BUILD_DIR/packages/mobile
+        - bundle exec fastlane ios alpha

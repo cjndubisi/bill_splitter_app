@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch, Reducer, ReducerAction } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { register } from '../api';
+import { register, login } from '../api';
 import { User } from '../api/types';
 import createDataContext from './createDataProvider';
 const AUTH_USER_TOKEN_KEY = 'AUTH_USER_TOKEN_KEY';
@@ -65,6 +65,28 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
         payload: {
           user_token: auth_token,
         },
+      });
+    }
+  },
+  loginWithEmail: async (info: { email: string; password: string }) => {
+    dispatch({ type: AuthTypes.LOADING });
+
+    try {
+      const { user, token: auth_token } = await login(info);
+
+      await AsyncStorage.setItem(AUTH_USER_TOKEN_KEY, auth_token);
+
+      dispatch({
+        type: AuthTypes.AUTH_SUCCESS,
+        payload: {
+          user,
+          user_token: auth_token,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: AuthTypes.AUTH_FAILURE,
+        payload: error.message || error,
       });
     }
   },

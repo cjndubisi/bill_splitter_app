@@ -1,17 +1,17 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Route, Router, Switch } from './router';
+import { Router } from './router';
 import Splash from './screens/Splash';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
-import { AuthProvider } from './context/AuthContext';
+import AllProviders from './context/AllProviders';
 import Home from './screens/Home';
 import PrivateRoute from './router/PrivateRoute';
 import AuthenticateRoute from './router/AuthenticateRoute';
 
 const App = () => {
   return (
-    <AuthProvider>
+    <AllProviders>
       <Router>
         <View>
           <AuthenticateRoute exact path="/" component={Splash} />
@@ -20,7 +20,7 @@ const App = () => {
           <AuthenticateRoute exact path="/signup" component={SignUp} />
         </View>
       </Router>
-    </AuthProvider>
+    </AllProviders>
   );
 };
 

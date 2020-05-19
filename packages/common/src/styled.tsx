@@ -62,4 +62,5 @@ export const Container = styled.SafeAreaView`
   width: 100%;
   background-color: #e0ffffbb;
   height: 100%;
+  flex: 1 1 100%;
 `;

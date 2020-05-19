@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Platform } from 'react-native';
-import Button from '../components/Button';
-import { Input, ErrorView, Container } from '../styled';
+import { Platform } from 'react-native';
+import { ErrorView, Container } from '../styled';
 import { AuthContext } from '../context/AuthContext';
 import ActivityLoader from '../components/ActivityLoader';
-import { Redirect } from '../router';
+import { Button, Input } from 'react-native-elements';
 const isWeb = Platform.OS === 'web';
 
 const Login = () => {

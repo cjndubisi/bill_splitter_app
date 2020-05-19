@@ -33,9 +33,9 @@ const authReducer: AuthReducer = (prevState, action) => {
     case AuthTypes.AUTH_SUCCESS:
       return {
         ...prevState,
-        user: action.payload.user,
-        user_token: action.payload.user_token,
-        isSignedIn: true,
+        ...(action.payload || {}),
+        user: action.payload?.user,
+        user_token: action.payload?.user_token,
         isLoading: false,
         error: undefined,
       };
@@ -57,6 +57,18 @@ const authReducer: AuthReducer = (prevState, action) => {
 };
 
 const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
+  logout: async () => {
+    dispatch({ type: AuthTypes.LOADING });
+    await AsyncStorage.clear();
+    dispatch({
+      type: AuthTypes.AUTH_SUCCESS,
+      payload: {
+        user: null,
+        user_token: null,
+        isSignedIn: false,
+      },
+    });
+  },
   tryToLogin: async () => {
     dispatch({ type: AuthTypes.LOADING });
     const auth_token = await AsyncStorage.getItem(AUTH_USER_TOKEN_KEY);
@@ -65,6 +77,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
         type: AuthTypes.AUTH_SUCCESS,
         payload: {
           user_token: auth_token,
+          isSignedIn: true,
         },
       });
     }
@@ -85,6 +98,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
         payload: {
           user,
           user_token: auth_token,
+          isSignedIn: true,
         },
       });
     } catch (error) {

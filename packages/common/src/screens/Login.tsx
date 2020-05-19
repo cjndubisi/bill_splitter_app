@@ -19,9 +19,7 @@ const Login = () => {
   useEffect(() => {
     setError(error);
   }, [error]);
-  if (isSignedIn) {
-    return <Redirect to="/home" />;
-  }
+
   const login = async () => {
     await loginWithEmail({ email, password });
   };

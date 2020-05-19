@@ -20,9 +20,7 @@ const SignUp = () => {
   useEffect(() => {
     setError(error);
   }, [error]);
-  if (isSignedIn) {
-    return <Redirect to="/home" />;
-  }
+
   const signUp = async () => {
     await signUpWithEmail({ name, email, password });
   };

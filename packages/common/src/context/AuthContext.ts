@@ -58,15 +58,19 @@ const authReducer: AuthReducer = (prevState, action) => {
 
 const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
   tryToLogin: async () => {
+    dispatch({ type: AuthTypes.LOADING });
     const auth_token = await AsyncStorage.getItem(AUTH_USER_TOKEN_KEY);
     if (auth_token) {
-      dispatch({
+      return dispatch({
         type: AuthTypes.AUTH_SUCCESS,
         payload: {
           user_token: auth_token,
         },
       });
     }
+    dispatch({
+      type: AuthTypes.AUTH_FAILURE,
+    });
   },
   loginWithEmail: async (info: { email: string; password: string }) => {
     dispatch({ type: AuthTypes.LOADING });

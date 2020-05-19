@@ -58,6 +58,8 @@ export const Container = styled.SafeAreaView`
   min-height: 100%;
   max-width: 467px;
   padding: 10px;
+  margin: 0 auto;
+  width: 100%;
   background-color: #e0ffffbb;
   height: 100%;
 `;

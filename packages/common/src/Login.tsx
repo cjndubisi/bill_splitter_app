@@ -28,7 +28,7 @@ const Login = () => {
   return (
     <Container>
       <ActivityLoader animating={isLoading && !isWeb} />
-      {viewError && <ErrorView title={viewError}/>}
+      {viewError && <ErrorView title={viewError} />}
       <Input onChangeText={setEmail} placeholder="Email" value={email} />
       <Input
         onChangeText={setPassword}

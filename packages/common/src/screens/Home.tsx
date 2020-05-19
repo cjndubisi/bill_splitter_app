@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Header } from 'react-native-elements';
 import { AuthContext } from '../context/AuthContext';
 import { Container } from '../styled';
 const Home = () => {
   const { logout } = useContext(AuthContext);
+
+  const addGroup = () => {};
+
   return (
     <Container>
-      <Button onPress={logout} title={'Logout'} />
+      <Header
+        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        rightComponent={() => <Button onPress={logout} title={'Logout'} />}
+      />
+
+      <Button onPress={addGroup} title={'Start a group'} />
     </Container>
   );
 };

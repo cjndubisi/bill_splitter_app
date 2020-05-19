@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Route, Router } from './router';
-import Splash from './Splash';
-import Login from './Login';
-import SignUp from './SignUp';
+import Splash from './screens/Splash';
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
 import { AuthProvider } from './context/AuthContext';
-import Home from './Home';
+import Home from './screens/Home';
 import PrivateRoute from './router/PrivateRoute';
 
 const App = () => {

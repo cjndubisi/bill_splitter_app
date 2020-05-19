@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Platform, Text } from 'react-native';
-import Button from './components/Button';
-import { Input, ErrorView, Container } from './styled';
-import { AuthContext } from './context/AuthContext';
-import ActivityLoader from './components/ActivityLoader';
-import { Redirect } from './router';
+import Button from '../components/Button';
+import { Input, ErrorView, Container } from '../styled';
+import { AuthContext } from '../context/AuthContext';
+import ActivityLoader from '../components/ActivityLoader';
+import { Redirect } from '../router';
 
 const isWeb = Platform.OS === 'web';
 const SignUp = () => {

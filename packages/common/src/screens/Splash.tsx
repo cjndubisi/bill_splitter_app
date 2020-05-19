@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Link } from './router';
-import { Container } from './styled';
+import { Link } from '../router';
+import { Container } from '../styled';
 
 const Splash = ({ match }) => {
   return (

@@ -5,11 +5,16 @@ import { ApiContext } from '../context/ApiContext';
 import { useParams, useRouteMatch } from 'react-router';
 import AddFriendOverlay from './AddFriendOverlay';
 import AddBillOverlay from './AddBillOverlay';
+import { Bill } from '../api/types';
+import { AUTH_USER_ID_KEY } from '../utils';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default ({ match: { params } }) => {
   let { id } = useParams();
   const [isShowingAdd, setShowingAddOverly] = useState(false);
   const [isShowingBill, setShowingBillOverly] = useState(false);
+  const [currentUser, setCurrentUser] = useState<number>(-1);
+
   const {
     state: { groups },
   } = useContext(ApiContext);
@@ -19,13 +24,31 @@ export default ({ match: { params } }) => {
     setShowingBillOverly(!isShowingBill);
   };
 
+  const firstTime = useRef(true);
+
+  useEffect(() => {
+    const currentUser = async () => {
+      const id = await AsyncStorage.getItem(AUTH_USER_ID_KEY);
+      setCurrentUser(parseInt(id));
+    };
+    if (firstTime.current) {
+      firstTime.current = false;
+    }
+
+    currentUser();
+  }, [currentUser]);
+
+  if (firstTime.current) {
+    return null;
+  }
+
   const addFriend = async () => {
     setShowingAddOverly(!isShowingAdd);
   };
 
   const keyExtractor = (_, index) => index.toString();
 
-  const renderItem = ({ item, index }) => (
+  const renderFriends = ({ item, index }) => (
     <ListItem
       key={index}
       title={item.name}
@@ -33,6 +56,23 @@ export default ({ match: { params } }) => {
       bottomDivider
     />
   );
+
+  const renderBill = ({ item, index }: { item: Bill; index: number }) => {
+    const payer = group.users.find((user) => user.id === item.payerId);
+    const action = payer.id === currentUser ? 'lent' : 'borrowed';
+    const details = `you ${action} \n $${item.amount}`;
+    return (
+      <ListItem
+        key={index}
+        title={item.name}
+        subtitle={`${payer.name} paid $${item.amount}`}
+        rightTitle={details.charAt(0).toUpperCase() + details.slice(1)}
+        rightTitleStyle={{ textAlign: 'right', fontSize: 12 }}
+        titleStyle={{ fontWeight: 'bold' }}
+        bottomDivider
+      />
+    );
+  };
 
   return (
     <View>
@@ -46,8 +86,15 @@ export default ({ match: { params } }) => {
       <View>
         <FlatList
           keyExtractor={keyExtractor}
+          data={group?.bills || []}
+          renderItem={renderBill}
+        />
+      </View>
+      <View>
+        <FlatList
+          keyExtractor={keyExtractor}
           data={group?.users || []}
-          renderItem={renderItem}
+          renderItem={renderFriends}
         />
       </View>
       <Button title={'Add friend'} onPress={addFriend} />

@@ -3,9 +3,11 @@ import { View, Platform, FlatList } from 'react-native';
 import { ListItem, Input, Button, Text } from 'react-native-elements';
 import { ApiContext } from '../context/ApiContext';
 import { useParams, useRouteMatch } from 'react-router';
+import AddFriendOverlay from './AddFriendOverlay';
 
 export default ({ match: { params } }) => {
   let { id } = useParams();
+  const [isShowingAdd, setShowingOverly] = useState(false);
   const {
     addFriendToGroup,
     state: { groups },
@@ -13,7 +15,7 @@ export default ({ match: { params } }) => {
   let group = groups.find((item) => item.id === id || params.id);
 
   const addFriend = async () => {
-    await addFriendToGroup(group.id, { name: 'ralh', email: 'ralpsh@rsalp.com' });
+    setShowingOverly(!isShowingAdd);
   };
 
   const keyExtractor = (_, index) => index.toString();
@@ -38,6 +40,12 @@ export default ({ match: { params } }) => {
         />
       </View>
       <Button title={'Add friend'} onPress={addFriend} />
+      {isShowingAdd && (
+        <AddFriendOverlay
+          onDismiss={() => setShowingOverly(false)}
+          group={group}
+        />
+      )}
     </View>
   );
 };

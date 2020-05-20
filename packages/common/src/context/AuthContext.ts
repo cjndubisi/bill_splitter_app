@@ -12,6 +12,7 @@ interface State {
   isLoading: boolean;
   auth_token: string;
   error: any;
+  userId?: number;
   isSignedIn: boolean;
 }
 
@@ -36,6 +37,7 @@ const authReducer: AuthReducer = (prevState, action) => {
         ...prevState,
         ...(action.payload || {}),
         user: action.payload?.user,
+        userId: action.payload?.userId,
         user_token: action.payload?.user_token,
         isLoading: false,
         error: undefined,
@@ -73,10 +75,13 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
   tryToLogin: async () => {
     dispatch({ type: AuthTypes.LOADING });
     const auth_token = await AsyncStorage.getItem(AUTH_USER_TOKEN_KEY);
+    const userId = await AsyncStorage.getItem(AUTH_USER_ID_KEY);
+
     if (auth_token) {
       return dispatch({
         type: AuthTypes.AUTH_SUCCESS,
         payload: {
+          userId,
           user_token: auth_token,
           isSignedIn: true,
         },
@@ -142,6 +147,7 @@ const INITIAL_STATE = {
   auth_token: undefined,
   isLoading: false,
   error: null,
+  userId: null,
   isSignedIn: false,
 };
 

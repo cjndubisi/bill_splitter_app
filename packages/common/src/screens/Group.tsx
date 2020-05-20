@@ -4,18 +4,23 @@ import { ListItem, Input, Button, Text } from 'react-native-elements';
 import { ApiContext } from '../context/ApiContext';
 import { useParams, useRouteMatch } from 'react-router';
 import AddFriendOverlay from './AddFriendOverlay';
+import AddBillOverlay from './AddBillOverlay';
 
 export default ({ match: { params } }) => {
   let { id } = useParams();
-  const [isShowingAdd, setShowingOverly] = useState(false);
+  const [isShowingAdd, setShowingAddOverly] = useState(false);
+  const [isShowingBill, setShowingBillOverly] = useState(false);
   const {
-    addFriendToGroup,
     state: { groups },
   } = useContext(ApiContext);
   let group = groups.find((item) => item.id === id || params.id);
 
+  const addBill = async () => {
+    setShowingBillOverly(!isShowingBill);
+  };
+
   const addFriend = async () => {
-    setShowingOverly(!isShowingAdd);
+    setShowingAddOverly(!isShowingAdd);
   };
 
   const keyExtractor = (_, index) => index.toString();
@@ -31,7 +36,13 @@ export default ({ match: { params } }) => {
 
   return (
     <View>
-      <Text></Text>
+      <View>
+        <Text style={{ textAlign: 'center' }}>{group.name}</Text>
+        <Text style={{ textAlign: 'center' }}>
+          {group.bills?.length || 0} Bills{' '}
+        </Text>
+        <Button title={'Add Bill'} onPress={addBill} />
+      </View>
       <View>
         <FlatList
           keyExtractor={keyExtractor}
@@ -42,7 +53,13 @@ export default ({ match: { params } }) => {
       <Button title={'Add friend'} onPress={addFriend} />
       {isShowingAdd && (
         <AddFriendOverlay
-          onDismiss={() => setShowingOverly(false)}
+          onDismiss={() => setShowingAddOverly(false)}
+          group={group}
+        />
+      )}
+      {isShowingBill && (
+        <AddBillOverlay
+          onDismiss={() => setShowingBillOverly(false)}
           group={group}
         />
       )}

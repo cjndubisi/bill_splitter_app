@@ -1,7 +1,12 @@
 import React from 'react';
 import { Dispatch, Reducer, ReducerAction } from 'react';
-import { createGroup, allGroups, addFriendToGroup } from '../api';
-import { User, Group } from '../api/types';
+import {
+  createGroup,
+  allGroups,
+  addFriendToGroup,
+  addBillToGroup,
+} from '../api';
+import { User, Group, Bill } from '../api/types';
 import createDataContext from './createDataProvider';
 
 interface State {
@@ -98,7 +103,7 @@ const apiActions = (dispatch: Dispatch<ReducerAction<ApiReducer>>) => ({
       });
     }
   },
-  addFriendToGroup: async (name, friend) => {
+  addFriendToGroup: async (name: number, friend: Partial<User>) => {
     dispatch({ type: AuthTypes.LOADING });
     try {
       const group = await addFriendToGroup(name, friend);
@@ -107,6 +112,21 @@ const apiActions = (dispatch: Dispatch<ReducerAction<ApiReducer>>) => ({
         return dispatch({
           type: AuthTypes.ADDFRIEND,
           payload: group,
+        });
+      }
+    } catch {
+      dispatch({
+        type: AuthTypes.FAILURE,
+      });
+    }
+  },
+  addBillToGroup: async (bill: Bill) => {
+    dispatch({ type: AuthTypes.LOADING });
+    try {
+      const group = await addBillToGroup(bill);
+      if (group) {
+        return dispatch({
+          type: AuthTypes.SUCCESS,
         });
       }
     } catch {

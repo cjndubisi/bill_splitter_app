@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { register, login } from '../api';
 import { User } from '../api/types';
 import createDataContext from './createDataProvider';
+import { AUTH_USER_ID_KEY } from '../utils';
 const AUTH_USER_TOKEN_KEY = 'AUTH_USER_TOKEN_KEY';
 
 interface State {
@@ -92,6 +93,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
       const { user, token: auth_token } = await login(info);
 
       await AsyncStorage.setItem(AUTH_USER_TOKEN_KEY, auth_token);
+      await AsyncStorage.setItem(AUTH_USER_ID_KEY, user.id);
 
       dispatch({
         type: AuthTypes.AUTH_SUCCESS,

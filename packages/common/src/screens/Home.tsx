@@ -1,33 +1,32 @@
 import React, { useContext, useState } from 'react';
 import { Button, Header, ListItem } from 'react-native-elements';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext, ApiContext } from '../context';
 import { Container } from '../styled';
 import AddGroupOverlay from './AddGroupOverlay';
+
 const Home = () => {
   const { logout } = useContext(AuthContext);
   const [isShowingCreate, toggleCreateGroup] = useState(false);
   const addGroup = () => {
     toggleCreateGroup(!isShowingCreate);
   };
-  const list = [
-    {
-      name: 'TEsst',
-      users: [{ name: '' }, { name: '' }],
-    },
-  ];
+  const { state } = useContext(ApiContext);
 
   return (
     <Container>
       <Header
-        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        centerComponent={{
+          text: 'BillSplit',
+          style: { color: '#fff', fontWeight: 'bold' },
+        }}
         rightComponent={<Button onPress={logout} title={'Logout'} />}
       />
-      {list.map((item, index) => (
+      {state.groups.map((item, index) => (
         <ListItem
           key={index}
           title={item.name}
           titleStyle={{ fontWeight: 'bold' }}
-          rightTitle={`${item.users.length} members`}
+          rightTitle={`${item.users?.length || 0} members`}
           bottomDivider
         />
       ))}

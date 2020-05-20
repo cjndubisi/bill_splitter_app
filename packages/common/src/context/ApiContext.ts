@@ -34,8 +34,7 @@ const apiReducer: ApiReducer = (prevState, action) => {
     case AuthTypes.SUCCESS:
       return {
         ...prevState,
-        ...(action.payload || {}),
-        groups: [...prevState.groups, ...(action.payload.group || [])],
+        groups: [...prevState.groups, ...([action.payload || []])],
         isLoading: false,
         error: undefined,
       };

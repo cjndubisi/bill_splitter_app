@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, Platform, FlatList } from 'react-native';
-import { Navigation } from 'react-router-navigation';
-import { Button, Header, ListItem } from 'react-native-elements';
-import { AuthContext, ApiContext } from '../context';
+import { Redirect, useHistory } from 'react-router';
+import { Button, ListItem } from 'react-native-elements';
+import { ApiContext } from '../context';
 import { Container } from '../styled';
 import AddGroupOverlay from './AddGroupOverlay';
+import PrivateRoute from '../router/PrivateRoute';
+import Group from './Group';
 
 const Home = () => {
-  const { logout } = useContext(AuthContext);
   const [isShowingCreate, toggleCreateGroup] = useState(false);
   const addGroup = () => {
     toggleCreateGroup(!isShowingCreate);
@@ -18,13 +19,15 @@ const Home = () => {
     const refresh = async () => await allGroups();
     refresh();
   }, []);
+  const history = useHistory();
 
-  const keyExtractor = (item, index) => index.toString();
-
+  const keyExtractor = (_, index) => index.toString();
+  // <Redirect to={`/groups/${item.id}`} />;
   const renderItem = ({ item, index }) => (
     <ListItem
       key={index}
       title={item.name}
+      onPress={() => history.push(`/groups/${item.id}`)}
       titleStyle={{ fontWeight: 'bold' }}
       rightTitle={`${item.users?.length || 0} members`}
       bottomDivider

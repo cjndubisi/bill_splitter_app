@@ -9,3 +9,9 @@ export type RegisterResponse = {
   message: string;
   token: string;
 };
+
+export type Group = {
+  id: number;
+  name: string;
+  users: User[];
+};

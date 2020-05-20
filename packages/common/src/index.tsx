@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Navigation } from 'react-router-navigation';
-import { Router } from './router';
+import { Router, Switch } from './router';
 import Splash from './screens/Splash';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
@@ -11,15 +11,16 @@ import AuthenticateRoute from './router/AuthenticateRoute';
 import { Container } from './styled';
 import { Button, Header } from 'react-native-elements';
 import { AuthContext } from './context';
+import Group from './screens/Group';
 
 const App = () => {
-  const NavHeader = () => {
+  const NavHeader = ({ title }) => {
     const { logout } = useContext(AuthContext);
     return (
       <Header
         statusBarProps={{ hidden: true, translucent: true }}
         centerComponent={{
-          text: 'BillSplit',
+          text: title,
           style: { color: '#fff', fontWeight: 'bold' },
         }}
         rightComponent={<Button onPress={logout} title={'Logout'} />}
@@ -34,13 +35,18 @@ const App = () => {
           <Navigation navBarStyle={{ backgroundColor: '#e0ffffbb' }}>
             <AuthenticateRoute exact path="/" component={Splash} />
             <PrivateRoute
-              renderNavBar={() => <NavHeader />}
-              exact
+              renderNavBar={() => <NavHeader title={'BillSplit'} />}
+              // exact
               path="/home"
               component={Home}
             />
             <AuthenticateRoute exact path="/login" component={Login} />
             <AuthenticateRoute exact path="/signup" component={SignUp} />
+            <PrivateRoute
+              renderNavBar={() => <NavHeader title={'BillSplit'} />}
+              path="/groups/:id"
+              component={Group}
+            />
           </Navigation>
         </Router>
       </Container>

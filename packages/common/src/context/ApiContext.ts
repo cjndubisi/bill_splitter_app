@@ -1,11 +1,11 @@
 import React from 'react';
 import { Dispatch, Reducer, ReducerAction } from 'react';
-import { createGroup, allGroups } from '../api';
-import { User } from '../api/types';
+import { createGroup, allGroups, addFriendToGroup } from '../api';
+import { User, Group } from '../api/types';
 import createDataContext from './createDataProvider';
 
 interface State {
-  groups: any[];
+  groups: Group[];
   isLoading: boolean;
   error: any;
 }
@@ -14,6 +14,7 @@ enum AuthTypes {
   SUCCESS = 'SUCCESS',
   FAILURE = 'FAILURE',
   LOADING = 'LOADING',
+  ADDFRIEND = 'ADDFRIEND',
 }
 
 type Action = {
@@ -31,6 +32,14 @@ const INITIAL_STATE: State = {
 
 const apiReducer: ApiReducer = (prevState, action) => {
   switch (action.type) {
+    case AuthTypes.ADDFRIEND:
+      const groups = prevState.groups;
+      const groupIndex = groups.findIndex(
+        (item) => item.id === action.payload.id
+      );
+
+      groups[groupIndex] = action.payload;
+      return { ...prevState, groups };
     case AuthTypes.SUCCESS:
       return {
         ...prevState,
@@ -76,12 +85,28 @@ const apiActions = (dispatch: Dispatch<ReducerAction<ApiReducer>>) => ({
     dispatch({ type: AuthTypes.LOADING });
     try {
       const groups = await allGroups(name);
-      console.log(groups);
 
       if (groups) {
         return dispatch({
           type: AuthTypes.SUCCESS,
           payload: groups,
+        });
+      }
+    } catch {
+      dispatch({
+        type: AuthTypes.FAILURE,
+      });
+    }
+  },
+  addFriendToGroup: async (name, friend) => {
+    dispatch({ type: AuthTypes.LOADING });
+    try {
+      const group = await addFriendToGroup(name, friend);
+
+      if (group) {
+        return dispatch({
+          type: AuthTypes.ADDFRIEND,
+          payload: group,
         });
       }
     } catch {

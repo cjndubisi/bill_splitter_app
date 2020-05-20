@@ -78,12 +78,28 @@ export default ({ match: { params } }) => {
 
   return (
     <View>
-      <View>
-        <Text style={{ textAlign: 'center' }}>{group.name}</Text>
-        <Text style={{ textAlign: 'center' }}>
-          {group.bills?.length || 0} Bills{' '}
+      <View style={{ backgroundColor: 'lightblue' }}>
+        <Text style={{ textAlign: 'center', fontSize: 30, fontWeight: 'bold' }}>
+          {group.name}
         </Text>
-        <Button title={'Add Bill'} onPress={addBill} />
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Text style={{ textAlign: 'center' }}>
+            {group.bills?.length || 0} Bills{' '}
+          </Text>
+          <Text style={{ textAlign: 'center' }}>
+            {group.users?.length || 0} members{' '}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row', 
+            justifyContent: 'center',
+            marginVertical: 10,
+          }}
+        >
+          <Button title={'Add Bill'} onPress={addBill} />
+          <Button title={'Balances'} />
+        </View>
       </View>
       <View>
         <FlatList

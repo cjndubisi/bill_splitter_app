@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dispatch, Reducer, ReducerAction } from 'react';
-import { createGroup } from '../api';
+import { createGroup, allGroups } from '../api';
 import { User } from '../api/types';
 import createDataContext from './createDataProvider';
 
@@ -34,7 +34,7 @@ const apiReducer: ApiReducer = (prevState, action) => {
     case AuthTypes.SUCCESS:
       return {
         ...prevState,
-        groups: [...prevState.groups, ...([action.payload || []])],
+        groups: [...(action.payload || []), ...prevState.groups],
         isLoading: false,
         error: undefined,
       };
@@ -63,7 +63,25 @@ const apiActions = (dispatch: Dispatch<ReducerAction<ApiReducer>>) => ({
       if (group) {
         return dispatch({
           type: AuthTypes.SUCCESS,
-          payload: group,
+          payload: [group],
+        });
+      }
+    } catch {
+      dispatch({
+        type: AuthTypes.FAILURE,
+      });
+    }
+  },
+  allGroups: async () => {
+    dispatch({ type: AuthTypes.LOADING });
+    try {
+      const groups = await allGroups(name);
+      console.log(groups);
+
+      if (groups) {
+        return dispatch({
+          type: AuthTypes.SUCCESS,
+          payload: groups,
         });
       }
     } catch {

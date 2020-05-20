@@ -12,10 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react-router-navigation": "^1.0.10",
     "@types/styled-components": "^5.1.0",
     "modal-react-native-web": "^0.2.0",
     "react-native-elements": "^2.0.0",
     "react-router": "^5.2.0",
+    "react-router-navigation": "^2.0.0-alpha.10",
     "styled-components": "^5.1.0"
   },
   "devDependencies": {

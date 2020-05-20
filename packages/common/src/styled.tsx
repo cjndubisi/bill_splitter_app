@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import React, { FunctionComponent } from 'react';
-import { TextProps } from 'react-native';
+import { TextProps, Platform } from 'react-native';
 import { TextProp, ButtonProps } from './types';
 export const Input = styled.TextInput`
   height: 40px;
@@ -57,10 +57,10 @@ export const ErrorView = ({ title }) => (
 export const Container = styled.SafeAreaView`
   min-height: 100%;
   max-width: 467px;
-  padding: 10px;
+
   margin: 0 auto;
   width: 100%;
   background-color: #e0ffffbb;
-  height: 100%;
+  height: ${() => (Platform.OS === 'web' ? '100vh' : '100%')};
   flex: 1 1 100%;
 `;

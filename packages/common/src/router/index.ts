@@ -1,7 +1,7 @@
+export { Card as Route } from 'react-router-navigation';
 export {
   NativeRouter as Router,
   Switch,
-  Route,
   Redirect,
   Link,
 } from 'react-router-native';

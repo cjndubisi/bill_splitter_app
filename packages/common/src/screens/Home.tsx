@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { View, Platform } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, Platform, FlatList } from 'react-native';
+import { Navigation } from 'react-router-navigation';
 import { Button, Header, ListItem } from 'react-native-elements';
 import { AuthContext, ApiContext } from '../context';
 import { Container } from '../styled';
@@ -11,33 +12,38 @@ const Home = () => {
   const addGroup = () => {
     toggleCreateGroup(!isShowingCreate);
   };
-  const { state } = useContext(ApiContext);
-  const Parent = Platform.OS === 'web' ? Container : View
+  const { state, allGroups } = useContext(ApiContext);
+  const Parent = Platform.OS === 'web' ? Container : View;
+  useEffect(() => {
+    const refresh = async () => await allGroups();
+    refresh();
+  }, []);
 
+  const keyExtractor = (item, index) => index.toString();
+
+  const renderItem = ({ item, index }) => (
+    <ListItem
+      key={index}
+      title={item.name}
+      titleStyle={{ fontWeight: 'bold' }}
+      rightTitle={`${item.users?.length || 0} members`}
+      bottomDivider
+    />
+  );
   return (
     <Parent>
-      <Header
-        statusBarProps={{ hidden: true, translucent: true }}
-        centerComponent={{
-          text: 'BillSplit',
-          style: { color: '#fff', fontWeight: 'bold' },
-        }}
-        rightComponent={<Button onPress={logout} title={'Logout'} />}
-      />
-      {state.groups.map((item, index) => (
-        <ListItem
-          key={index}
-          title={item.name}
-          titleStyle={{ fontWeight: 'bold' }}
-          rightTitle={`${item.users?.length || 0} members`}
-          bottomDivider
+      <View style={{ flex: 2 }}>
+        <FlatList
+          keyExtractor={keyExtractor}
+          data={state.groups}
+          renderItem={renderItem}
         />
-      ))}
-      {isShowingCreate && (
-        <AddGroupOverlay onDismiss={() => toggleCreateGroup(false)} />
-      )}
+        {isShowingCreate && (
+          <AddGroupOverlay onDismiss={() => toggleCreateGroup(false)} />
+        )}
+      </View>
       <Button
-        style={{ justifyContent: 'flex-end' }}
+        style={{ justifyContent: 'flex-end', paddingTop: 10 }}
         onPress={addGroup}
         title={'Start a group'}
       />

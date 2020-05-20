@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { ErrorView, Container } from '../styled';
 import { AuthContext } from '../context/AuthContext';
 import ActivityLoader from '../components/ActivityLoader';
@@ -23,7 +23,7 @@ const Login = () => {
     await loginWithEmail({ email, password });
   };
   return (
-    <Container>
+    <View>
       <ActivityLoader animating={isLoading && !isWeb} />
       {viewError && <ErrorView title={viewError} />}
       <Input onChangeText={setEmail} placeholder="Email" value={email} />
@@ -34,7 +34,7 @@ const Login = () => {
         value={password}
       />
       <Button onPress={login} title={'Login'} />
-    </Container>
+    </View>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
+import { View, Platform } from 'react-native';
 import { Overlay, Input, Button } from 'react-native-elements';
 import Modal from 'modal-react-native-web';
 import { ApiContext } from '../context/ApiContext';
@@ -26,24 +27,26 @@ export default ({ onDismiss }) => {
     } catch {}
   };
 
+  const isWeb = Platform.OS === 'web';
+
   return (
-    <>
+    <View>
       <Overlay
-        ModalComponent={Modal}
+        {...(isWeb ? { ModalComponent: Modal } : {})}
         isVisible={true}
         onBackdropPress={() => {
           !isLoading && onDismiss();
         }}
       >
-        <>
+        <View>
           <Input
             placeholder="Group name"
             onChangeText={setName}
             value={groupName}
           />
           <Button disabled={isLoading} title="Create" onPress={addGroup} />
-        </>
+        </View>
       </Overlay>
-    </>
+    </View>
   );
 };

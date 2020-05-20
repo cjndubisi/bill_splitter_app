@@ -2,11 +2,7 @@ import { Platform } from 'react-native';
 interface IConfig {
   API_URL: string;
 }
-
-const nativeConfig = Platform.select({
-  ios: () => require('react-native-config'),
-  android: () => require('react-native-config'),
-});
+import nativeConfig from './rn-confg';
 
 // get all envs from process.env
 // using ...process.env doesn't work,

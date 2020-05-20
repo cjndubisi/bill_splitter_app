@@ -38,12 +38,14 @@ export default ({ onDismiss }) => {
           !isLoading && onDismiss();
         }}
       >
-        <View>
-          <Input
-            placeholder="Group name"
-            onChangeText={setName}
-            value={groupName}
-          />
+        <View style={{ width: 200, height: 120 }}>
+          <View style={{ flex: 2, justifyContent: 'center' }}>
+            <Input
+              placeholder="Group name"
+              onChangeText={setName}
+              value={groupName}
+            />
+          </View>
           <Button disabled={isLoading} title="Create" onPress={addGroup} />
         </View>
       </Overlay>

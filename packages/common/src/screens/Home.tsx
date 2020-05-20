@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { View, Platform } from 'react-native';
 import { Button, Header, ListItem } from 'react-native-elements';
 import { AuthContext, ApiContext } from '../context';
 import { Container } from '../styled';
@@ -11,10 +12,12 @@ const Home = () => {
     toggleCreateGroup(!isShowingCreate);
   };
   const { state } = useContext(ApiContext);
+  const Parent = Platform.OS === 'web' ? Container : View
 
   return (
-    <Container>
+    <Parent>
       <Header
+        statusBarProps={{ hidden: true, translucent: true }}
         centerComponent={{
           text: 'BillSplit',
           style: { color: '#fff', fontWeight: 'bold' },
@@ -38,7 +41,7 @@ const Home = () => {
         onPress={addGroup}
         title={'Start a group'}
       />
-    </Container>
+    </Parent>
   );
 };
 export default Home;

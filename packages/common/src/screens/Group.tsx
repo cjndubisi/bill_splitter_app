@@ -60,7 +60,9 @@ export default ({ match: { params } }) => {
   const renderBill = ({ item, index }: { item: Bill; index: number }) => {
     const payer = group.users.find((user) => user.id === item.payerId);
     const action = payer.id === currentUser ? 'lent' : 'borrowed';
-    const details = `you ${action} \n $${item.amount}`;
+    const details = `you ${action} \n $${(
+      item.amount / group.users.length
+    ).toFixed(2)}`;
     return (
       <ListItem
         key={index}

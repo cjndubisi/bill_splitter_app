@@ -12,7 +12,7 @@ export default ({ navigation, route }) => {
   const {
     state: { userId },
   } = useContext(AuthContext);
-  const headerHeight = useHeaderHeight();
+
   const params = route.params;
   const [isShowingAdd, setShowingAddOverly] = useState(false);
   const group = groups.find((item) => item.id.toString() === params.id);
@@ -36,7 +36,16 @@ export default ({ navigation, route }) => {
   );
 
   return (
-    <View style={{ marginTop: headerHeight }}>
+    <View>
+      <Text
+        style={{
+          height: 30,
+          marginLeft: 10,
+          paddingVertical: 10,
+        }}
+      >
+        {'Friends'.toUpperCase()}
+      </Text>
       <View>
         <FlatList
           keyExtractor={keyExtractor}

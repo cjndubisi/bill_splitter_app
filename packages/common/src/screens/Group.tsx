@@ -3,7 +3,7 @@ import { View, Platform, FlatList } from 'react-native';
 import { ListItem, Input, Button, Text } from 'react-native-elements';
 import { ApiContext } from '../context/ApiContext';
 import { useParams, useHistory, RouteComponentProps } from 'react-router';
-import { Switch, Link, Route } from '../router';
+import { Switch, Route } from '../router';
 import AddFriendOverlay from './AddFriendOverlay';
 import AddBillOverlay from './AddBillOverlay';
 import { Bill } from '../api/types';
@@ -11,11 +11,12 @@ import { AUTH_USER_ID_KEY } from '../utils';
 import AsyncStorage from '@react-native-community/async-storage';
 import PrivateRoute from '../router/PrivateRoute';
 import Balance from './Balance';
+import { useLinkTo, Link } from '@react-navigation/native';
 
-export default ({ match }: RouteComponentProps) => {
-  const { url, params } = match;
-  const history = useHistory();
-  const { id } = useParams();
+export default ({ navigation, route }) => {
+  const params = route.params;
+  const linkTo = useLinkTo();
+
   const [isShowingAdd, setShowingAddOverly] = useState(false);
   const [isShowingBill, setShowingBillOverly] = useState(false);
   const [currentUser, setCurrentUser] = useState<number>(-1);
@@ -23,8 +24,12 @@ export default ({ match }: RouteComponentProps) => {
   const {
     state: { groups },
   } = useContext(ApiContext);
-  let group = groups.find((item) => item.id === id || (params as any).id);
+  let group = groups.find((item) => item.id.toString() === params.id);
 
+  if (!group) {
+    navigation.navigate('AuthResolver');
+    return null;
+  }
   const addBill = async () => {
     setShowingBillOverly(!isShowingBill);
   };
@@ -46,10 +51,6 @@ export default ({ match }: RouteComponentProps) => {
   if (firstTime.current) {
     return null;
   }
-
-  const showBalance = () => {
-    history.push(`${url}/balances`);
-  };
 
   const addFriend = async () => {
     setShowingAddOverly(!isShowingAdd);
@@ -109,9 +110,10 @@ export default ({ match }: RouteComponentProps) => {
           }}
         >
           <Button title={'Add Bill'} onPress={addBill} />
-          <Link to={`${url}/balances`}>
-            <Text>{'Balances'} /></Text>
-          </Link>
+          <Button
+            title={'Balances'}
+            onPress={() => linkTo(`/groups/${params.id}/balances`)}
+          />
         </View>
       </View>
       <View>

@@ -6,7 +6,7 @@ import ActivityLoader from '../components/ActivityLoader';
 import { Button, Input } from 'react-native-elements';
 const isWeb = Platform.OS === 'web';
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const {
     state: { isLoading, isSignedIn, error },
     loginWithEmail,

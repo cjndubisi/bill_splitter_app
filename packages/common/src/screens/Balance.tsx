@@ -11,18 +11,17 @@ const OrangeText = (props) => (
 const GreenText = (props) => (
   <Text style={{ color: 'green' }}>{props.children}</Text>
 );
-export default ({ match: { params } }) => {
+export default ({ navigation, route }) => {
+  const { params } = route;
   const currency = '$';
-  console.log('afsdfasd');
 
-  const { id } = useParams();
   const {
     state: { groups },
   } = useContext(ApiContext);
   const {
     state: { userId },
   } = useContext(AuthContext);
-  const group = groups.find((item) => item.id === id || params.id);
+  const group = groups.find((item) => item.id.toString() === params.id);
   const resolved = balanceResolver(group);
 
   const title = (user) => {

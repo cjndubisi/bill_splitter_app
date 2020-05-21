@@ -16,6 +16,7 @@ const appIncludes = [
   resolveApp('../..'),
   resolveApp('src'),
   resolveApp('../common/src'),
+  resolveApp('../../node_modules/react-native-safe-area-context'),
   resolveApp('../../node_modules/react-native-elements'),
   resolveApp('../../node_modules/react-native-gesture-handler/'),
   resolveApp('../../node_modules/react-native-haptic-feedback/'),

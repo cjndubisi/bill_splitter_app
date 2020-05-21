@@ -1,20 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import { Link } from '../router';
 import { Container } from '../styled';
 
-const Splash = ({ match }) => {
+const Splash = ({ navigation }) => {
   return (
     <Container>
       <View>
         <Text>BillSplit</Text>
       </View>
-      <Link to={`/signup`}>
-        <Text>Sign Up</Text>
-      </Link>
-      <Link to={`/login`}>
-        <Text>Login</Text>
-      </Link>
+      <Button title={'Sign Up'} onPress={() => navigation.navigate('SignUp')} />
+      <Button title={'Login'} onPress={() => navigation.navigate('Login')} />
     </Container>
   );
 };

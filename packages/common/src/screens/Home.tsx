@@ -7,8 +7,11 @@ import { Container } from '../styled';
 import AddGroupOverlay from './AddGroupOverlay';
 import PrivateRoute from '../router/PrivateRoute';
 import Group from './Group';
+import { useLinkTo } from '@react-navigation/native';
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  const linkTo = useLinkTo();
+
   const [isShowingCreate, toggleCreateGroup] = useState(false);
   const addGroup = () => {
     toggleCreateGroup(!isShowingCreate);
@@ -27,7 +30,7 @@ const Home = () => {
     <ListItem
       key={index}
       title={item.name}
-      onPress={() => history.push(`/groups/${item.id}`)}
+      onPress={() => linkTo(`/groups/${item.id}`)}
       titleStyle={{ fontWeight: 'bold' }}
       rightTitle={`${item.users?.length || 0} members`}
       bottomDivider

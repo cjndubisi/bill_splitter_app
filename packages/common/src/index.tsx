@@ -14,7 +14,57 @@ import { AuthContext } from './context';
 import Group from './screens/Group';
 import Balance from './screens/Balance';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import AuthResolver from './screens/AuthResolver';
+const SCREENS = {
+  AuthResolver: {
+    path: 'authenticating',
+    component: AuthResolver,
+  },
+  Splash: {
+    path: '/',
+    component: Splash,
+  },
+  Login: {
+    path: 'login',
+    component: Login,
+  },
+  Home: {
+    path: 'home',
+    component: Home,
+  },
+  SignUp: {
+    path: 'signup',
+    component: SignUp,
+  },
+  Group: {
+    path: 'groups/:id',
+    component: Group,
+  },
+  Balance: {
+    path: 'groups/:id/balances',
+    component: Balance,
+  },
+};
+
+type RootStackParamList = any;
 const App = () => {
+  const linking = {
+    prefixes: ['/'],
+    config: Object.keys(SCREENS).reduce(
+      (acc, next) => ({
+        ...acc,
+        ...{
+          [next]: {
+            path: SCREENS[next].path,
+            screens: SCREENS[next].screens,
+          },
+        },
+      }),
+      {}
+    ),
+  };
   const NavHeader = ({ title }) => {
     const { logout } = useContext(AuthContext);
     return (
@@ -28,36 +78,24 @@ const App = () => {
       />
     );
   };
+  const Stack = createStackNavigator<RootStackParamList>();
 
   return (
-    <AllProviders>
-      <Container>
-        <Router>
-          <Navigation navBarStyle={{ backgroundColor: '#e0ffffbb' }}>
-            <AuthenticateRoute exact path="/" component={Splash} />
-            <PrivateRoute
-              renderNavBar={() => <NavHeader title={'BillSplit'} />}
-              // exact
-              path="/home"
-              component={Home}
-            />
-            <AuthenticateRoute exact path="/login" component={Login} />
-            <AuthenticateRoute exact path="/signup" component={SignUp} />
-            <PrivateRoute
-              renderNavBar={() => <NavHeader title={'BillSplit'} />}
-              exact
-              path="/groups/:id"
-              component={Group}
-            />
-            <PrivateRoute
-              exact
-              path="/groups/:id/balances"
-              component={Balance}
-            />
-          </Navigation>
-        </Router>
-      </Container>
-    </AllProviders>
+    <Container>
+      <AllProviders>
+        <NavigationContainer linking={linking}>
+          <Stack.Navigator>
+            {Object.keys(SCREENS).map((Screen) => (
+              <Stack.Screen
+                key={SCREENS[Screen].name}
+                name={Screen}
+                component={SCREENS[Screen].component}
+              />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AllProviders>
+    </Container>
   );
 };
 

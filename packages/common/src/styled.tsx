@@ -55,9 +55,10 @@ export const ErrorView = ({ title }) => (
 );
 
 export const Container = styled.SafeAreaView`
-  min-height: 100%;
+  /* min-height: 100%; */
   max-width: 467px;
-
+  display: flex;
+  height: 100%;
   margin: 0 auto;
   width: 100%;
   background-color: #e0ffffbb;

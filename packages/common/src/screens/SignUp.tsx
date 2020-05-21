@@ -44,7 +44,7 @@ const SignUp = () => {
 
   const signUp = async () => {
     const validation = validatejs({ name, email, password }, constraints);
-    if (Object.keys(validation).length > 0) {
+    if (Object.keys(validation || {}).length > 0) {
       setFormError(validation);
       return;
     }

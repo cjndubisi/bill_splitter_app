@@ -36,7 +36,7 @@ const Login = ({ navigation }) => {
 
   const login = async () => {
     const validation = validatejs({ email, password }, constraints);
-    if (Object.keys(validation).length > 0) {
+    if (Object.keys(validation || {}).length > 0) {
       setFormError(validation);
       return;
     }

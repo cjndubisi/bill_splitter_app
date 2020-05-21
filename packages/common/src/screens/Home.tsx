@@ -46,7 +46,7 @@ const Home = ({ navigation }) => {
         )}
       </View>
       <Button
-        style={{ justifyContent: 'flex-end', paddingTop: 10 }}
+        style={{ justifyContent: 'flex-end', marginBottom: 30 }}
         onPress={addGroup}
         title={'Start a group'}
       />

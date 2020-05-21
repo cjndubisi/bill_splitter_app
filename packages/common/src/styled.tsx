@@ -54,14 +54,13 @@ export const ErrorView = ({ title }) => (
   </StyledErrorView>
 );
 
-export const Container = styled.SafeAreaView`
+export const Container = styled.View`
   /* min-height: 100%; */
   max-width: 467px;
   display: flex;
   height: 100%;
   margin: 0 auto;
   width: 100%;
-  background-color: #e0ffffbb;
   height: ${() => (Platform.OS === 'web' ? '100vh' : '100%')};
   flex: 1 1 100%;
 `;

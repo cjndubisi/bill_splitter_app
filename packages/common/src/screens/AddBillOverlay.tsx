@@ -52,7 +52,7 @@ export default ({
       return;
     }
     const validation = validatejs({ name, amount }, constraints);
-    if (Object.keys(validation).length > 0) {
+    if (Object.keys(validation || {}).length > 0) {
       setFormError(validation);
       return;
     }
@@ -80,7 +80,7 @@ export default ({
         }}
       >
         <View style={{ width: 200 }}>
-          <View style={{ flex: 2, justifyContent: 'center' }}>
+          <View style={{ justifyContent: 'center' }}>
             <Input
               onFocus={() => setFormError(null)}
               placeholder="Expense Title"

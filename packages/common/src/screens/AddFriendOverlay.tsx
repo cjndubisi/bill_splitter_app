@@ -70,8 +70,8 @@ export default ({
           !isLoading && onDismiss();
         }}
       >
-        <View style={{ width: 200 }}>
-          <View style={{ flex: 2, justifyContent: 'center' }}>
+        <View style={{ width: 200, display: 'flex' }}>
+          <View style={{ justifyContent: 'center' }}>
             <Input
               onFocus={() => {
                 setFormError(null);

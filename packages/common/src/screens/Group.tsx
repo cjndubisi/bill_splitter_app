@@ -21,10 +21,10 @@ export default ({ navigation, route }) => {
   const group = groups.find((item) => item.id.toString() === params.id);
   const currentUser = userId;
 
-  if (!isSignedIn || !group) {
-    navigation.navigate('AuthResolver');
+  if (!group) {
     return null;
   }
+
   const addBill = async () => {
     setShowingBillOverly(!isShowingBill);
   };
@@ -55,13 +55,27 @@ export default ({ navigation, route }) => {
   return (
     <View style={{ marginTop: useHeaderHeight() }}>
       <View style={{ paddingTop: 30 }}>
-        <Text style={{ textAlign: 'center', fontSize: 30, fontWeight: 'bold' }}>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 30,
+            fontWeight: 'bold',
+          }}
+        >
           {group.name}
         </Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 50,
+          }}
+        >
           <Text style={{ textAlign: 'center' }}>
-            {group.bills?.length || 0} Bills{' '}
+            {group.bills?.length || 0} Bills
           </Text>
+          <Text>{'  |  '}</Text>
           <Text style={{ textAlign: 'center' }}>
             {group.users?.length || 0} members{' '}
           </Text>
@@ -73,8 +87,14 @@ export default ({ navigation, route }) => {
             marginVertical: 10,
           }}
         >
-          <Button title={'Add Bill'} onPress={addBill} />
           <Button
+            buttonStyle={{ height: 30 }}
+            title={'Add Bill'}
+            onPress={addBill}
+          />
+          <Button
+            style={{ marginHorizontal: 10 }}
+            buttonStyle={{ height: 30 }}
             title={'Balances'}
             onPress={() => linkTo(`/groups/${params.id}/balances`)}
           />

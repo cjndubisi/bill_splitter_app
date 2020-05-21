@@ -8,7 +8,7 @@ export default (props) => {
     <Icon
       {...props}
       name="refresh"
-      iconStyle={{ marginRight: 20, color: 'white' }}
+      iconStyle={{ marginLeft: 20, color: 'white' }}
       type="font-awesome"
       onPress={allGroups}
     />

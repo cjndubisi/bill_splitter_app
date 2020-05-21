@@ -81,7 +81,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
       return dispatch({
         type: AuthTypes.AUTH_SUCCESS,
         payload: {
-          userId,
+          userId: parseInt(userId),
           user_token: auth_token,
           isSignedIn: true,
         },
@@ -98,7 +98,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
       const { user, token: auth_token } = await login(info);
 
       await AsyncStorage.setItem(AUTH_USER_TOKEN_KEY, auth_token);
-      await AsyncStorage.setItem(AUTH_USER_ID_KEY, user.id);
+      await AsyncStorage.setItem(AUTH_USER_ID_KEY, user.id.toString());
 
       dispatch({
         type: AuthTypes.AUTH_SUCCESS,

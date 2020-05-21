@@ -9,6 +9,15 @@ import Group from './Group';
 import Balance from './Balance';
 import AuthResolver from './AuthResolver';
 import GroupSetting from './GroupSetting';
+import RefreshGroupMenu from '../components/RefreshGroupMenu';
+
+const defaultOptions = {
+  headerTintColor: 'white',
+  headerBackTitleVisible: false,
+  headerStyle: {
+    backgroundColor: '#157dd3',
+  },
+};
 
 export default {
   AuthResolver: {
@@ -25,52 +34,47 @@ export default {
     path: 'login',
     component: Login,
     options: {
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: '#157dd3',
-      },
+      ...defaultOptions,
     },
   },
   Home: {
     path: 'home',
     component: Home,
     options: {
-      header: () => <LogoutHeader title={'BillSplit'} />,
+      ...defaultOptions,
+      headerLeft: () => <RefreshGroupMenu />,
+      headerRight: () => <LogoutHeader />,
     },
   },
   SignUp: {
     path: 'signup',
     component: SignUp,
     options: {
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: '#157dd3',
-      },
+      ...defaultOptions,
     },
   },
   Group: {
     path: 'groups/:id',
     component: Group,
     options: {
-      headerTransparent: true,
+      ...defaultOptions,
       title: '',
-      cardStyle: {
-        backgroundColor: '#e0ffffbb',
-      },
-      headerStyle: {},
       headerRight: () => <GroupSettingMenu />,
     },
   },
   GroupSetting: {
     path: 'groups/:id/settings',
     options: {
-      headerTransparent: true,
+      ...defaultOptions,
       title: 'Settings',
     },
     component: GroupSetting,
   },
   Balance: {
     path: 'groups/:id/balances',
+    options: {
+      ...defaultOptions,
+    },
     component: Balance,
   },
 };

@@ -1,6 +1,5 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {},
-  "exclude": ["node_modules", "**/*.spec.(ts|tsx)"],
-  "references": [{ "path": "../common" }]
+  "exclude": ["node_modules", "**/*.spec.(ts|tsx)"]
 }

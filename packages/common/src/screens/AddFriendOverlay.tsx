@@ -3,7 +3,7 @@ import { View, Platform } from 'react-native';
 import { Overlay, Input, Button } from 'react-native-elements';
 import Modal from 'modal-react-native-web';
 import { ApiContext } from '../context/ApiContext';
-import { Group } from 'src/api/types';
+import { Group } from '../api/types';
 import validatejs from 'validate.js';
 
 export default ({

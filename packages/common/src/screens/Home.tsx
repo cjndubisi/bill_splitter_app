@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { useHistory } from 'react-router';
-import { Button, ListItem } from 'react-native-elements';
+import { Button, ListItem, Text } from 'react-native-elements';
 import { ApiContext } from '../context';
 import { Container } from '../styled';
 import AddGroupOverlay from './AddGroupOverlay';
 import { useLinkTo } from '@react-navigation/native';
+import ListEmptyState from '../components/ListEmptyState';
 
 const Home = ({ navigation }) => {
   const linkTo = useLinkTo();
@@ -40,6 +41,12 @@ const Home = ({ navigation }) => {
           keyExtractor={keyExtractor}
           data={state.groups}
           renderItem={renderItem}
+          ListEmptyComponent={(props) => (
+            <ListEmptyState
+              {...props}
+              title={'Create a group to get started'}
+            />
+          )}
         />
         {isShowingCreate && (
           <AddGroupOverlay onDismiss={() => toggleCreateGroup(false)} />

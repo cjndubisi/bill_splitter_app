@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { View, FlatList } from 'react-native';
-import { ListItem, Button, Text } from 'react-native-elements';
+import { ListItem, Button, Text, Divider } from 'react-native-elements';
 import { ApiContext, AuthContext } from '../context';
 import AddBillOverlay from './AddBillOverlay';
 import { Bill } from '../api/types';
 import { useLinkTo, Link } from '@react-navigation/native';
 import { useHeaderHeight } from '@react-navigation/stack';
+import ListEmptyState from '../components/ListEmptyState';
 
 export default ({ navigation, route }) => {
   const params = route.params;
@@ -106,11 +107,18 @@ export default ({ navigation, route }) => {
           />
         </View>
       </View>
+      <Divider />
       <View>
         <FlatList
           keyExtractor={keyExtractor}
           data={group?.bills || []}
           renderItem={renderBill}
+          ListEmptyComponent={(props) => (
+            <ListEmptyState
+              {...props}
+              title={'Add a friend from Settings Menu to split expenses evenly'}
+            />
+          )}
         />
       </View>
       {isShowingBill && (

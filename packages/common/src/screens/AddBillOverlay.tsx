@@ -60,14 +60,22 @@ export default ({
       >
         <View style={{ width: 200 }}>
           <View style={{ flex: 2, justifyContent: 'center' }}>
-            <Input placeholder="Name" onChangeText={setName} value={name} />
+            <Input
+              placeholder="Expense Title"
+              onChangeText={setName}
+              value={name}
+            />
             <Input
               keyboardType="decimal-pad"
-              placeholder="Email"
+              placeholder="0.0"
               onChangeText={setBill}
               value={amount}
             />
-            <Text style={{ marginTop: 20 }}>Bill will be split evenly</Text>
+            <Text
+              style={{ color: 'grey', textAlign: 'center', marginVertical: 10 }}
+            >
+              Bill will be split evenly
+            </Text>
           </View>
           <Button disabled={isLoading} title="Add Bill" onPress={addBill} />
         </View>

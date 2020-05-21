@@ -129,6 +129,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
         payload: {
           user,
           user_token: auth_token,
+          isSignedIn: true,
         },
       });
     } catch (error) {

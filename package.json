@@ -2,7 +2,7 @@
   "scripts": {
     "test": "jest --collect-coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "build": "yarn workspace @bill_splitter/web build"
+    "build": "yarn workspace @bill_splitter/common build & yarn workspace @bill_splitter/web build"
   },
   "version": "0.1.0",
   "private": true,

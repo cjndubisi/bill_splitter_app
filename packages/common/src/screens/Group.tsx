@@ -53,20 +53,21 @@ export default ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ marginTop: useHeaderHeight() }}>
+    <View>
       <View style={{ paddingTop: 30 }}>
         <Text
           style={{
             textAlign: 'center',
             fontSize: 30,
             fontWeight: 'bold',
+            marginBottom: 15,
           }}
         >
-          {group.name}
+          {group.name.toUpperCase()}
         </Text>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             height: 50,
@@ -75,9 +76,14 @@ export default ({ navigation, route }) => {
           <Text style={{ textAlign: 'center' }}>
             {group.bills?.length || 0} Bills
           </Text>
-          <Text>{'  |  '}</Text>
           <Text style={{ textAlign: 'center' }}>
-            {group.users?.length || 0} members{' '}
+            {group.users?.length || 0} members
+          </Text>
+          <Text style={{ textAlign: 'center' }}>
+            {(
+              group.bills?.reduce((acc, next) => acc + next.amount, 0) || 0
+            ).toFixed(1)}{' '}
+            Expenses
           </Text>
         </View>
         <View
@@ -88,13 +94,13 @@ export default ({ navigation, route }) => {
           }}
         >
           <Button
-            buttonStyle={{ height: 30 }}
-            title={'Add Bill'}
+            titleStyle={{ fontSize: 14 }}
+            title={'Add an Expense'}
             onPress={addBill}
           />
           <Button
             style={{ marginHorizontal: 10 }}
-            buttonStyle={{ height: 30 }}
+            titleStyle={{ fontSize: 14 }}
             title={'Balances'}
             onPress={() => linkTo(`/groups/${params.id}/balances`)}
           />

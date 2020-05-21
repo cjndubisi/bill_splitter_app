@@ -1,28 +1,27 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { View, FlatList } from 'react-native';
 import { ListItem, Button, Text } from 'react-native-elements';
-import { ApiContext } from '../context/ApiContext';
-import AddFriendOverlay from './AddFriendOverlay';
+import { ApiContext, AuthContext } from '../context';
 import AddBillOverlay from './AddBillOverlay';
 import { Bill } from '../api/types';
-import { AUTH_USER_ID_KEY } from '../utils';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useLinkTo, Link } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/stack';
 
 export default ({ navigation, route }) => {
   const params = route.params;
   const linkTo = useLinkTo();
-
-  const [isShowingAdd, setShowingAddOverly] = useState(false);
   const [isShowingBill, setShowingBillOverly] = useState(false);
-  const [currentUser, setCurrentUser] = useState<number>(-1);
 
   const {
     state: { groups },
   } = useContext(ApiContext);
-  let group = groups.find((item) => item.id.toString() === params.id);
+  const {
+    state: { isSignedIn, userId },
+  } = useContext(AuthContext);
+  const group = groups.find((item) => item.id.toString() === params.id);
+  const currentUser = userId;
 
-  if (!group) {
+  if (!isSignedIn || !group) {
     navigation.navigate('AuthResolver');
     return null;
   }
@@ -30,38 +29,7 @@ export default ({ navigation, route }) => {
     setShowingBillOverly(!isShowingBill);
   };
 
-  const firstTime = useRef(true);
-
-  useEffect(() => {
-    const currentUser = async () => {
-      const id = await AsyncStorage.getItem(AUTH_USER_ID_KEY);
-      setCurrentUser(parseInt(id));
-    };
-    if (firstTime.current) {
-      firstTime.current = false;
-    }
-
-    currentUser();
-  }, [currentUser]);
-
-  if (firstTime.current) {
-    return null;
-  }
-
-  const addFriend = async () => {
-    setShowingAddOverly(!isShowingAdd);
-  };
-
   const keyExtractor = (_, index) => index.toString();
-
-  const renderFriends = ({ item, index }) => (
-    <ListItem
-      key={index}
-      title={item.name}
-      titleStyle={{ fontWeight: 'bold' }}
-      bottomDivider
-    />
-  );
 
   const renderBill = ({ item, index }: { item: Bill; index: number }) => {
     const payer = group.users.find((user) => user.id === item.payerId);
@@ -85,8 +53,8 @@ export default ({ navigation, route }) => {
   };
 
   return (
-    <View>
-      <View style={{ backgroundColor: 'lightblue', paddingTop: 30 }}>
+    <View style={{ marginTop: useHeaderHeight() }}>
+      <View style={{ paddingTop: 30 }}>
         <Text style={{ textAlign: 'center', fontSize: 30, fontWeight: 'bold' }}>
           {group.name}
         </Text>
@@ -119,20 +87,6 @@ export default ({ navigation, route }) => {
           renderItem={renderBill}
         />
       </View>
-      <View>
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={group?.users || []}
-          renderItem={renderFriends}
-        />
-      </View>
-      <Button title={'Add friend'} onPress={addFriend} />
-      {isShowingAdd && (
-        <AddFriendOverlay
-          onDismiss={() => setShowingAddOverly(false)}
-          group={group}
-        />
-      )}
       {isShowingBill && (
         <AddBillOverlay
           onDismiss={() => setShowingBillOverly(false)}

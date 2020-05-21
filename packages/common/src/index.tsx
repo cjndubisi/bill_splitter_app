@@ -10,9 +10,14 @@ import { AuthContext } from './context';
 import Group from './screens/Group';
 import Balance from './screens/Balance';
 
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useRoute,
+  useLinkTo,
+} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthResolver from './screens/AuthResolver';
+import GroupSetting from './screens/GroupSetting';
 
 const NavHeader = ({ title }) => {
   const { logout } = useContext(AuthContext);
@@ -61,15 +66,35 @@ const SCREENS = {
     options: {
       headerTransparent: true,
       title: '',
-      headerRight: () => (
-        <Icon
-          name="cog"
-          iconStyle={{ marginRight: 20 }}
-          type="font-awesome"
-          onPress={() => console.log('hello')}
-        />
-      ),
+      cardStyle: {
+        backgroundColor: '#e0ffffbb',
+      },
+      headerStyle: {},
+      headerRight: () => {
+        const Settings = () => {
+          const linkTo = useLinkTo();
+          const { params } = useRoute();
+
+          return (
+            <Icon
+              name="cog"
+              iconStyle={{ marginRight: 20 }}
+              type="font-awesome"
+              onPress={() => linkTo(`/groups/${params.id}/settings`)}
+            />
+          );
+        };
+        return <Settings />;
+      },
     },
+  },
+  GroupSetting: {
+    path: 'groups/:id/settings',
+    options: {
+      headerTransparent: true,
+      title: 'Settings',
+    },
+    component: GroupSetting,
   },
   Balance: {
     path: 'groups/:id/balances',

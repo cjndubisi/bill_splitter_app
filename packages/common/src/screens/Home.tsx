@@ -5,8 +5,6 @@ import { Button, ListItem } from 'react-native-elements';
 import { ApiContext } from '../context';
 import { Container } from '../styled';
 import AddGroupOverlay from './AddGroupOverlay';
-import PrivateRoute from '../router/PrivateRoute';
-import Group from './Group';
 import { useLinkTo } from '@react-navigation/native';
 
 const Home = ({ navigation }) => {
@@ -17,7 +15,6 @@ const Home = ({ navigation }) => {
     toggleCreateGroup(!isShowingCreate);
   };
   const { state, allGroups } = useContext(ApiContext);
-  const Parent = Platform.OS === 'web' ? Container : View;
   useEffect(() => {
     const refresh = async () => await allGroups();
     refresh();
@@ -25,7 +22,7 @@ const Home = ({ navigation }) => {
   const history = useHistory();
 
   const keyExtractor = (_, index) => index.toString();
-  // <Redirect to={`/groups/${item.id}`} />;
+
   const renderItem = ({ item, index }) => (
     <ListItem
       key={index}
@@ -37,7 +34,7 @@ const Home = ({ navigation }) => {
     />
   );
   return (
-    <Parent>
+    <Container>
       <View style={{ flex: 2 }}>
         <FlatList
           keyExtractor={keyExtractor}
@@ -53,7 +50,7 @@ const Home = ({ navigation }) => {
         onPress={addGroup}
         title={'Start a group'}
       />
-    </Parent>
+    </Container>
   );
 };
 export default Home;

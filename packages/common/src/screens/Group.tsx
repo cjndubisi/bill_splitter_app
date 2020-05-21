@@ -1,16 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { View, Platform, FlatList } from 'react-native';
-import { ListItem, Input, Button, Text } from 'react-native-elements';
+import { View, FlatList } from 'react-native';
+import { ListItem, Button, Text } from 'react-native-elements';
 import { ApiContext } from '../context/ApiContext';
-import { useParams, useHistory, RouteComponentProps } from 'react-router';
-import { Switch, Route } from '../router';
 import AddFriendOverlay from './AddFriendOverlay';
 import AddBillOverlay from './AddBillOverlay';
 import { Bill } from '../api/types';
 import { AUTH_USER_ID_KEY } from '../utils';
 import AsyncStorage from '@react-native-community/async-storage';
-import PrivateRoute from '../router/PrivateRoute';
-import Balance from './Balance';
 import { useLinkTo, Link } from '@react-navigation/native';
 
 export default ({ navigation, route }) => {
@@ -90,7 +86,7 @@ export default ({ navigation, route }) => {
 
   return (
     <View>
-      <View style={{ backgroundColor: 'lightblue' }}>
+      <View style={{ backgroundColor: 'lightblue', paddingTop: 30 }}>
         <Text style={{ textAlign: 'center', fontSize: 30, fontWeight: 'bold' }}>
           {group.name}
         </Text>

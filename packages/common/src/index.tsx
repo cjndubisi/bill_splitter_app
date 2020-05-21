@@ -1,15 +1,11 @@
 import React, { useContext } from 'react';
-import { Navigation } from 'react-router-navigation';
-import { Router, Switch } from './router';
 import Splash from './screens/Splash';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import AllProviders from './context/AllProviders';
 import Home from './screens/Home';
-import PrivateRoute from './router/PrivateRoute';
-import AuthenticateRoute from './router/AuthenticateRoute';
 import { Container } from './styled';
-import { Button, Header } from 'react-native-elements';
+import { Button, Header, Icon } from 'react-native-elements';
 import { AuthContext } from './context';
 import Group from './screens/Group';
 import Balance from './screens/Balance';
@@ -17,14 +13,30 @@ import Balance from './screens/Balance';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthResolver from './screens/AuthResolver';
+
+const NavHeader = ({ title }) => {
+  const { logout } = useContext(AuthContext);
+  return (
+    <Header
+      statusBarProps={{ hidden: true, translucent: true }}
+      centerComponent={{
+        text: title,
+        style: { color: '#fff', fontWeight: 'bold' },
+      }}
+      rightComponent={<Button onPress={logout} title={'Logout'} />}
+    />
+  );
+};
 const SCREENS = {
   AuthResolver: {
     path: 'authenticating',
     component: AuthResolver,
+    options: { headerShown: false },
   },
   Splash: {
     path: '/',
     component: Splash,
+    options: { headerShown: false },
   },
   Login: {
     path: 'login',
@@ -33,6 +45,11 @@ const SCREENS = {
   Home: {
     path: 'home',
     component: Home,
+    options: {
+      header: () => {
+        return <NavHeader title={'BillSplit'} />;
+      },
+    },
   },
   SignUp: {
     path: 'signup',
@@ -41,6 +58,18 @@ const SCREENS = {
   Group: {
     path: 'groups/:id',
     component: Group,
+    options: {
+      headerTransparent: true,
+      title: '',
+      headerRight: () => (
+        <Icon
+          name="cog"
+          iconStyle={{ marginRight: 20 }}
+          type="font-awesome"
+          onPress={() => console.log('hello')}
+        />
+      ),
+    },
   },
   Balance: {
     path: 'groups/:id/balances',
@@ -65,19 +94,7 @@ const App = () => {
       {}
     ),
   };
-  const NavHeader = ({ title }) => {
-    const { logout } = useContext(AuthContext);
-    return (
-      <Header
-        statusBarProps={{ hidden: true, translucent: true }}
-        centerComponent={{
-          text: title,
-          style: { color: '#fff', fontWeight: 'bold' },
-        }}
-        rightComponent={<Button onPress={logout} title={'Logout'} />}
-      />
-    );
-  };
+
   const Stack = createStackNavigator<RootStackParamList>();
 
   return (
@@ -89,6 +106,7 @@ const App = () => {
               <Stack.Screen
                 key={SCREENS[Screen].name}
                 name={Screen}
+                options={SCREENS[Screen].options || {}}
                 component={SCREENS[Screen].component}
               />
             ))}

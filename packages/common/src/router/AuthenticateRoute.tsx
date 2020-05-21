@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Route, Redirect } from '.';
 import { AuthContext } from '../context/AuthContext';
 
-
 /*
   Redirect app if user is authenticated.
 */

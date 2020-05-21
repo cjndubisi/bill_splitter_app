@@ -2,15 +2,20 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { View, Platform, FlatList } from 'react-native';
 import { ListItem, Input, Button, Text } from 'react-native-elements';
 import { ApiContext } from '../context/ApiContext';
-import { useParams, useRouteMatch } from 'react-router';
+import { useParams, useHistory, RouteComponentProps } from 'react-router';
+import { Switch, Link, Route } from '../router';
 import AddFriendOverlay from './AddFriendOverlay';
 import AddBillOverlay from './AddBillOverlay';
 import { Bill } from '../api/types';
 import { AUTH_USER_ID_KEY } from '../utils';
 import AsyncStorage from '@react-native-community/async-storage';
+import PrivateRoute from '../router/PrivateRoute';
+import Balance from './Balance';
 
-export default ({ match: { params } }) => {
-  let { id } = useParams();
+export default ({ match }: RouteComponentProps) => {
+  const { url, params } = match;
+  const history = useHistory();
+  const { id } = useParams();
   const [isShowingAdd, setShowingAddOverly] = useState(false);
   const [isShowingBill, setShowingBillOverly] = useState(false);
   const [currentUser, setCurrentUser] = useState<number>(-1);
@@ -18,7 +23,7 @@ export default ({ match: { params } }) => {
   const {
     state: { groups },
   } = useContext(ApiContext);
-  let group = groups.find((item) => item.id === id || params.id);
+  let group = groups.find((item) => item.id === id || (params as any).id);
 
   const addBill = async () => {
     setShowingBillOverly(!isShowingBill);
@@ -42,6 +47,10 @@ export default ({ match: { params } }) => {
     return null;
   }
 
+  const showBalance = () => {
+    history.push(`${url}/balances`);
+  };
+
   const addFriend = async () => {
     setShowingAddOverly(!isShowingAdd);
   };
@@ -60,8 +69,10 @@ export default ({ match: { params } }) => {
   const renderBill = ({ item, index }: { item: Bill; index: number }) => {
     const payer = group.users.find((user) => user.id === item.payerId);
     const action = payer.id === currentUser ? 'lent' : 'borrowed';
+    const perPerson = item.amount / group.users.length;
     const details = `you ${action} \n $${(
-      item.amount / group.users.length
+      perPerson *
+      (group.users.length - 1)
     ).toFixed(2)}`;
     return (
       <ListItem
@@ -92,13 +103,15 @@ export default ({ match: { params } }) => {
         </View>
         <View
           style={{
-            flexDirection: 'row', 
+            flexDirection: 'row',
             justifyContent: 'center',
             marginVertical: 10,
           }}
         >
           <Button title={'Add Bill'} onPress={addBill} />
-          <Button title={'Balances'} />
+          <Link to={`${url}/balances`}>
+            <Text>{'Balances'} /></Text>
+          </Link>
         </View>
       </View>
       <View>
@@ -128,6 +141,13 @@ export default ({ match: { params } }) => {
           group={group}
         />
       )}
+      <Switch>
+        <PrivateRoute
+          match={match}
+          component={Balance}
+          path={`${url}/balances`}
+        />
+      </Switch>
     </View>
   );
 };

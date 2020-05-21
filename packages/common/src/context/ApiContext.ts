@@ -20,6 +20,7 @@ enum AuthTypes {
   FAILURE = 'FAILURE',
   LOADING = 'LOADING',
   ADDFRIEND = 'ADDFRIEND',
+  REFRESH = 'REFRESH',
 }
 
 type Action = {
@@ -49,6 +50,13 @@ const apiReducer: ApiReducer = (prevState, action) => {
       return {
         ...prevState,
         groups: [...(action.payload || []), ...prevState.groups],
+        isLoading: false,
+        error: undefined,
+      };
+    case AuthTypes.REFRESH:
+      return {
+        ...prevState,
+        groups: action.payload,
         isLoading: false,
         error: undefined,
       };
@@ -93,7 +101,7 @@ const apiActions = (dispatch: Dispatch<ReducerAction<ApiReducer>>) => ({
 
       if (groups) {
         return dispatch({
-          type: AuthTypes.SUCCESS,
+          type: AuthTypes.REFRESH,
           payload: groups,
         });
       }

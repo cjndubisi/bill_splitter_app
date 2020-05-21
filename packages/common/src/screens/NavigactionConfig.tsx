@@ -1,43 +1,15 @@
-import React, { useContext } from 'react';
-import { useRoute, useLinkTo } from '@react-navigation/native';
-import { Button, Header, Icon } from 'react-native-elements';
+import React from 'react';
+import LogoutHeader from '../components/LogoutHeader';
+import GroupSettingMenu from '../components/GroupSettingMenu';
 import Splash from './Splash';
 import Login from './Login';
 import SignUp from './SignUp';
 import Home from './Home';
-import { AuthContext } from '../context';
 import Group from './Group';
 import Balance from './Balance';
 import AuthResolver from './AuthResolver';
 import GroupSetting from './GroupSetting';
 
-const NavHeader = ({ title }) => {
-  const { logout } = useContext(AuthContext);
-  return (
-    <Header
-      statusBarProps={{ hidden: true, translucent: true }}
-      centerComponent={{
-        text: title,
-        style: { color: '#fff', fontWeight: 'bold' },
-      }}
-      rightComponent={<Button onPress={logout} title={'Logout'} />}
-    />
-  );
-};
-
-const Settings = () => {
-  const linkTo = useLinkTo();
-  const { params } = useRoute();
-
-  return (
-    <Icon
-      name="cog"
-      iconStyle={{ marginRight: 20 }}
-      type="font-awesome"
-      onPress={() => linkTo(`/groups/${params.id}/settings`)}
-    />
-  );
-};
 export default {
   AuthResolver: {
     path: 'authenticating',
@@ -57,9 +29,7 @@ export default {
     path: 'home',
     component: Home,
     options: {
-      header: () => {
-        return <NavHeader title={'BillSplit'} />;
-      },
+      header: () => <LogoutHeader title={'BillSplit'} />,
     },
   },
   SignUp: {
@@ -76,7 +46,7 @@ export default {
         backgroundColor: '#e0ffffbb',
       },
       headerStyle: {},
-      headerRight: () => <Settings />,
+      headerRight: () => <GroupSettingMenu />,
     },
   },
   GroupSetting: {

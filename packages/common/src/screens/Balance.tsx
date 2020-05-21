@@ -58,7 +58,7 @@ export default ({ navigation, route }) => {
   return (
     <View>
       {Object.keys(resolved).map((user, index) => (
-        <View key={`user${index}`}>
+        <View style={{ paddingHorizontal: 20 }} key={`user${index}`}>
           <Text>{title(user)}</Text>
           <View style={{ marginLeft: 20 }}>
             {Object.keys(resolved[user].gets).map((get, index) => {

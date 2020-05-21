@@ -5,7 +5,6 @@ import { ApiContext, AuthContext } from '../context';
 import AddBillOverlay from './AddBillOverlay';
 import { Bill } from '../api/types';
 import { useLinkTo, Link } from '@react-navigation/native';
-import { useHeaderHeight } from '@react-navigation/stack';
 import ListEmptyState from '../components/ListEmptyState';
 
 export default ({ navigation, route }) => {

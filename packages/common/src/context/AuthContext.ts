@@ -103,6 +103,7 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
       dispatch({
         type: AuthTypes.AUTH_SUCCESS,
         payload: {
+          userId: parseInt(user.id),
           user,
           user_token: auth_token,
           isSignedIn: true,
@@ -123,10 +124,12 @@ const authActions = (dispatch: Dispatch<ReducerAction<AuthReducer>>) => ({
       const { user, token: auth_token } = await register(request);
 
       await AsyncStorage.setItem(AUTH_USER_TOKEN_KEY, auth_token);
+      await AsyncStorage.setItem(AUTH_USER_ID_KEY, user.id.toString());
 
       dispatch({
         type: AuthTypes.AUTH_SUCCESS,
         payload: {
+          userId: parseInt(user.id as any),
           user,
           user_token: auth_token,
           isSignedIn: true,

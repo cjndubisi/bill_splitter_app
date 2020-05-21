@@ -13,6 +13,8 @@ const GreenText = (props) => (
 );
 export default ({ match: { params } }) => {
   const currency = '$';
+  console.log('afsdfasd');
+
   const { id } = useParams();
   const {
     state: { groups },

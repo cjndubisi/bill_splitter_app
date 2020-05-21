@@ -141,13 +141,6 @@ export default ({ match }: RouteComponentProps) => {
           group={group}
         />
       )}
-      <Switch>
-        <PrivateRoute
-          match={match}
-          component={Balance}
-          path={`${url}/balances`}
-        />
-      </Switch>
     </View>
   );
 };

@@ -12,7 +12,7 @@ export default (props) => {
       name="cog"
       iconStyle={{ marginRight: 20, color: 'white' }}
       type="font-awesome"
-      onPress={() => linkTo(`/groups/${params.id}/settings`)}
+      onPress={() => linkTo(`/groups/${(params as any).id}/settings`)}
     />
   );
 };

@@ -33,18 +33,13 @@ const App = () => {
   React.useEffect(() => {
     const restoreState = async () => {
       try {
-        const initialUrl = await Linking.getInitialURL();
+        const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+        const state = savedStateString
+          ? JSON.parse(savedStateString)
+          : undefined;
 
-        if (Platform.OS !== 'web' && initialUrl == null) {
-          // Only restore state if there's no deep link and we're not on web
-          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
-          const state = savedStateString
-            ? JSON.parse(savedStateString)
-            : undefined;
-
-          if (state !== undefined) {
-            setInitialState(state);
-          }
+        if (state !== undefined) {
+          setInitialState(state);
         }
       } finally {
         setIsReady(true);

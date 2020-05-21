@@ -20,6 +20,10 @@ export default ({ navigation, route }) => {
     setShowingAddOverly(!isShowingAdd);
   };
 
+  if (!group) {
+    return null;
+  }
+
   const keyExtractor = (_, index) => index.toString();
 
   const renderFriends = ({ item, index }) => (

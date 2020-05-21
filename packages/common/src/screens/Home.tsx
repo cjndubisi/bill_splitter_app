@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Platform, FlatList } from 'react-native';
-import { Redirect, useHistory } from 'react-router';
+import { View, FlatList } from 'react-native';
+import { useHistory } from 'react-router';
 import { Button, ListItem } from 'react-native-elements';
 import { ApiContext } from '../context';
 import { Container } from '../styled';

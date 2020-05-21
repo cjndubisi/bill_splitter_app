@@ -7,11 +7,21 @@ import { Container } from '../styled';
 const Splash = ({ navigation }) => {
   return (
     <Container>
-      <View>
-        <Text>BillSplit</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 30 }}>BillSplit</Text>
       </View>
-      <Button title={'Sign Up'} onPress={() => navigation.navigate('SignUp')} />
-      <Button title={'Login'} onPress={() => navigation.navigate('Login')} />
+      <View style={{ alignItems: 'center', flex: 1 }}>
+        <Button
+          title={'Sign Up'}
+          style={{ width: 200, marginVertical: 10 }}
+          onPress={() => navigation.navigate('SignUp')}
+        />
+        <Button
+          title={'Login'}
+          style={{ width: 200, marginVertical: 10 }}
+          onPress={() => navigation.navigate('Login')}
+        />
+      </View>
     </Container>
   );
 };

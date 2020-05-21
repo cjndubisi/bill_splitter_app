@@ -23,18 +23,25 @@ const Login = ({ navigation }) => {
     await loginWithEmail({ email, password });
   };
   return (
-    <View>
+    <Container style={{ paddingHorizontal: 20 }}>
       <ActivityLoader animating={isLoading && !isWeb} />
-      {viewError && <ErrorView title={viewError} />}
-      <Input onChangeText={setEmail} placeholder="Email" value={email} />
-      <Input
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry={true}
-        value={password}
-      />
+      <View style={{ marginVertical: 20 }}>
+        {viewError && <ErrorView title={viewError} />}
+        <Input
+          style={{ paddingHorizontal: 30 }}
+          onChangeText={setEmail}
+          placeholder="Email"
+          value={email}
+        />
+        <Input
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry={true}
+          value={password}
+        />
+      </View>
       <Button onPress={login} title={'Login'} />
-    </View>
+    </Container>
   );
 };
 

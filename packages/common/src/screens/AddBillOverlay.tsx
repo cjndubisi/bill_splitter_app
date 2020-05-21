@@ -6,7 +6,7 @@ import { ApiContext } from '../context/ApiContext';
 import { Group } from 'src/api/types';
 import { AUTH_USER_ID_KEY } from '../utils';
 import AsyncStorage from '@react-native-community/async-storage';
-import { allGroups } from 'src/api';
+import validatejs from 'validate.js';
 
 export default ({
   onDismiss,
@@ -24,8 +24,21 @@ export default ({
   const bills = group.bills;
   const [name, setName] = useState('');
   const [amount, setBill] = useState('');
-  const firstTime = useRef(true);
+  const [formError, setFormError] = useState(null);
 
+  const firstTime = useRef(true);
+  var constraints = {
+    name: {
+      presence: true,
+      length: {
+        minimum: 3,
+        message: 'must be at least 3 characters',
+      },
+    },
+    amount: {
+      presence: true,
+    },
+  };
   useEffect(() => {
     if (firstTime.current) {
       firstTime.current = false;
@@ -35,6 +48,14 @@ export default ({
   }, [bills?.length || 0]);
 
   const addBill = async () => {
+    if (!parseFloat(amount)) {
+      return;
+    }
+    const validation = validatejs({ name, amount }, constraints);
+    if (Object.keys(validation).length > 0) {
+      setFormError(validation);
+      return;
+    }
     try {
       const currentUser: string = await AsyncStorage.getItem(AUTH_USER_ID_KEY);
       await addBillToGroup({
@@ -61,15 +82,19 @@ export default ({
         <View style={{ width: 200 }}>
           <View style={{ flex: 2, justifyContent: 'center' }}>
             <Input
+              onFocus={() => setFormError(null)}
               placeholder="Expense Title"
               onChangeText={setName}
               value={name}
+              errorMessage={formError?.['name']?.[0] || ''}
             />
             <Input
+              onFocus={() => setFormError(null)}
               keyboardType="decimal-pad"
               placeholder="0.0"
               onChangeText={setBill}
               value={amount}
+              errorMessage={formError?.['amount']?.[0] || ''}
             />
             <Text
               style={{ color: 'grey', textAlign: 'center', marginVertical: 10 }}

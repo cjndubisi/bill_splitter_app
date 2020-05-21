@@ -4,6 +4,7 @@ import { Overlay, Input, Button } from 'react-native-elements';
 import Modal from 'modal-react-native-web';
 import { ApiContext } from '../context/ApiContext';
 import { Group } from 'src/api/types';
+import validatejs from 'validate.js';
 
 export default ({
   onDismiss,
@@ -20,6 +21,7 @@ export default ({
   const users = group.users;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [formError, setFormError] = useState(null);
   const firstTime = useRef(true);
 
   useEffect(() => {
@@ -30,7 +32,25 @@ export default ({
     onDismiss();
   }, [users.length]);
 
+  var constraints = {
+    name: {
+      presence: true,
+      length: {
+        minimum: 3,
+        message: 'must be at least 3 characters',
+      },
+    },
+    email: {
+      email: true,
+    },
+  };
+
   const addFriend = async () => {
+    const validation = validatejs({ name, email }, constraints);
+    if (Object.keys(validation || {}).length > 0) {
+      setFormError(validation);
+      return;
+    }
     try {
       await addFriendToGroup(group.id, {
         name: name,
@@ -52,8 +72,24 @@ export default ({
       >
         <View style={{ width: 200 }}>
           <View style={{ flex: 2, justifyContent: 'center' }}>
-            <Input placeholder="Name" onChangeText={setName} value={name} />
-            <Input placeholder="Email" onChangeText={setEmail} value={email} />
+            <Input
+              onFocus={() => {
+                setFormError(null);
+              }}
+              placeholder="Name"
+              onChangeText={setName}
+              value={name}
+              errorMessage={formError?.['name']?.[0] || ''}
+            />
+            <Input
+              onFocus={() => {
+                setFormError(null);
+              }}
+              placeholder="Email"
+              onChangeText={setEmail}
+              value={email}
+              errorMessage={formError?.['email']?.[0] || ''}
+            />
           </View>
           <Button disabled={isLoading} title="Create" onPress={addFriend} />
         </View>

@@ -22,8 +22,10 @@ export default ({ navigation, route }) => {
     state: { userId },
   } = useContext(AuthContext);
   const group = groups.find((item) => item.id.toString() === params.id);
+  if (!group) {
+    return null;
+  }
   const resolved = balanceResolver(group);
-
   const title = (user) => {
     const gets = Object.keys(resolved[user].gets).reduce(
       (acc, next) => acc + resolved[user].gets[next],
@@ -39,12 +41,12 @@ export default ({ navigation, route }) => {
       gets >= Math.abs(debts) ? (
         <GreenText>
           {currency}
-          {Math.abs(gets)}
+          {Math.abs(gets).toFixed(2)}
         </GreenText>
       ) : (
         <OrangeText>
           {currency}
-          {Math.abs(debts)}
+          {Math.abs(debts).toFixed(2)}
         </OrangeText>
       );
     return (
@@ -69,7 +71,8 @@ export default ({ navigation, route }) => {
                   style={{ fontSize: 12, color: 'grey', marginVertical: 5 }}
                   key={index.toString()}
                 >
-                  {get} owes <GreenText>{` ${currency}${amount} `}</GreenText>
+                  {get} owes{' '}
+                  <GreenText>{` ${currency}${amount.toFixed(2)} `}</GreenText>
                   {'to '}
                   {user}
                 </Text>
@@ -92,11 +95,13 @@ export default ({ navigation, route }) => {
                 >
                   {debtor} owes
                   {amount < 0 ? (
-                    <OrangeText>{` ${currency}${Math.abs(
-                      amount
+                    <OrangeText>{` ${currency}${Math.abs(amount).toFixed(
+                      2
                     )} `}</OrangeText>
                   ) : (
-                    <GreenText>{` ${currency}${Math.abs(amount)} `}</GreenText>
+                    <GreenText>{` ${currency}${Math.abs(amount).toFixed(
+                      2
+                    )} `}</GreenText>
                   )}
                   to {creditor}
                 </Text>

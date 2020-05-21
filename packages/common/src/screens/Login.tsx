@@ -28,12 +28,14 @@ const Login = ({ navigation }) => {
       <View style={{ marginVertical: 20 }}>
         {viewError && <ErrorView title={viewError} />}
         <Input
+          onFocus={() => setError(null)}
           style={{ paddingHorizontal: 30 }}
           onChangeText={setEmail}
           placeholder="Email"
           value={email}
         />
         <Input
+          onFocus={() => setError(null)}
           onChangeText={setPassword}
           placeholder="Password"
           secureTextEntry={true}

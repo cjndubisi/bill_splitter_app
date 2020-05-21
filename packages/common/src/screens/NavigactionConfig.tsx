@@ -24,6 +24,12 @@ export default {
   Login: {
     path: 'login',
     component: Login,
+    options: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#157dd3',
+      },
+    },
   },
   Home: {
     path: 'home',
@@ -35,6 +41,12 @@ export default {
   SignUp: {
     path: 'signup',
     component: SignUp,
+    options: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#157dd3',
+      },
+    },
   },
   Group: {
     path: 'groups/:id',

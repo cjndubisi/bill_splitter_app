@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Platform, Text } from 'react-native';
-import Button from '../components/Button';
-import { Input, ErrorView, Container } from '../styled';
+import { Button, Input } from 'react-native-elements';
+import { ErrorView, Container } from '../styled';
 import { AuthContext } from '../context/AuthContext';
 import ActivityLoader from '../components/ActivityLoader';
-import { Redirect } from '../router';
 
 const isWeb = Platform.OS === 'web';
 const SignUp = () => {
@@ -25,29 +24,32 @@ const SignUp = () => {
     await signUpWithEmail({ name, email, password });
   };
   return (
-    <Container>
+    <Container style={{ paddingHorizontal: 20 }}>
       <ActivityLoader animating={isLoading && !isWeb} />
-      {viewError && <ErrorView title={viewError} />}
-
-      <Input
-        onFocus={() => setError(null)}
-        onChangeText={setName}
-        placeholder="Name"
-        value={name}
-      />
-      <Input
-        onFocus={() => setError(null)}
-        onChangeText={setEmail}
-        placeholder="Email"
-        value={email}
-      />
-      <Input
-        onFocus={() => setError(null)}
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry={true}
-        value={password}
-      />
+      <View style={{ marginVertical: 20 }}>
+        {viewError && <ErrorView title={viewError} />}
+        <Input
+          onFocus={() => setError(null)}
+          style={{ paddingHorizontal: 30 }}
+          onChangeText={setName}
+          placeholder="Name"
+          value={name}
+        />
+        <Input
+          onFocus={() => setError(null)}
+          style={{ paddingHorizontal: 30 }}
+          onChangeText={setEmail}
+          placeholder="Email"
+          value={email}
+        />
+        <Input
+          onFocus={() => setError(null)}
+          onChangeText={setPassword}
+          placeholder="Password"
+          secureTextEntry={true}
+          value={password}
+        />
+      </View>
       <Button onPress={signUp} title={'Sign up'} />
     </Container>
   );

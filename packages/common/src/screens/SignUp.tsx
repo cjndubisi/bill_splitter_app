@@ -63,6 +63,7 @@ const SignUp = () => {
           style={{ paddingHorizontal: 30 }}
           onChangeText={setName}
           placeholder="Name"
+          autoCapitalize="none"
           value={name}
           errorMessage={formError?.['name']?.[0] || ''}
         />
@@ -74,6 +75,8 @@ const SignUp = () => {
           style={{ paddingHorizontal: 30 }}
           onChangeText={setEmail}
           placeholder="Email"
+          autoCapitalize="none"
+          textContentType="emailAddress"
           value={email}
           errorMessage={formError?.['email']?.[0] || ''}
         />
@@ -85,6 +88,8 @@ const SignUp = () => {
           onChangeText={setPassword}
           placeholder="Password"
           secureTextEntry={true}
+          autoCapitalize="none"
+          textContentType="password"
           value={password}
           errorMessage={formError?.['password']?.[0] || ''}
         />

@@ -55,6 +55,8 @@ const Login = ({ navigation }) => {
           style={{ paddingHorizontal: 30 }}
           onChangeText={setEmail}
           placeholder="Email"
+          autoCapitalize="none"
+          textContentType="emailAddress"
           value={email}
           errorMessage={formError?.['email']?.[0] || ''}
         />
@@ -66,6 +68,8 @@ const Login = ({ navigation }) => {
           onChangeText={setPassword}
           placeholder="Password"
           secureTextEntry={true}
+          autoCapitalize="none"
+          textContentType="password"
           value={password}
           errorMessage={formError?.['password']?.[0] || ''}
         />

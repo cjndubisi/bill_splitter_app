@@ -17,7 +17,6 @@ const appIncludes = [
   resolveApp('src'),
   resolveApp('../common/src'),
   resolveApp('../../node_modules/react-native-safe-area-context'),
-
   resolveApp('../../node_modules/react-native-elements'),
   resolveApp('../../node_modules/react-native-gesture-handler/'),
   resolveApp('../../node_modules/react-native-haptic-feedback/'),
@@ -34,6 +33,7 @@ module.exports = function override(config, env) {
   config.module.rules[2].oneOf[1].include = appIncludes;
   config.module.rules[2].oneOf[1].options.plugins = [
     require.resolve('babel-plugin-react-native-web'),
+    require.resolve('@babel/plugin-transform-modules-commonjs'),
   ].concat(config.module.rules[2].oneOf[1].options.plugins);
 
   config.plugins.push(new webpack.DefinePlugin({ __DEV__ }));

@@ -31,8 +31,11 @@ const Login = ({ navigation }) => {
     },
   };
   useEffect(() => {
+    if (isSignedIn) {
+      return navigation.navigate('Home');
+    }
     setError(error);
-  }, [error]);
+  }, [error, isSignedIn]);
 
   const login = async () => {
     const validation = validatejs({ email, password }, constraints);

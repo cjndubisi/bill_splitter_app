@@ -20,7 +20,6 @@ const Home = ({ navigation }) => {
     const refresh = async () => await allGroups();
     refresh();
   }, []);
-  const history = useHistory();
 
   const keyExtractor = (_, index) => index.toString();
 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View } from 'react-native';
+import { Platform, Linking } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AllProviders from './context/AllProviders';
@@ -33,13 +33,17 @@ const App = () => {
   React.useEffect(() => {
     const restoreState = async () => {
       try {
-        const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
-        const state = savedStateString
-          ? JSON.parse(savedStateString)
-          : undefined;
+        const initialUrl = await Linking.getInitialURL();
 
-        if (state !== undefined) {
-          setInitialState(state);
+        if (Platform.OS !== 'web' && initialUrl == null) {
+          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+          const state = savedStateString
+            ? JSON.parse(savedStateString)
+            : undefined;
+
+          if (state !== undefined) {
+            setInitialState(state);
+          }
         }
       } finally {
         setIsReady(true);

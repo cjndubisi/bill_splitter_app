@@ -26,7 +26,7 @@ export default {
     options: { headerShown: false },
   },
   Splash: {
-    path: '/',
+    path: 'splash',
     component: Splash,
     options: { headerShown: false },
   },
